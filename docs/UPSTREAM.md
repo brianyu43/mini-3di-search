@@ -21,3 +21,30 @@ benchmark README 본문 및 GitHub API commit/release 조회는 웹 도구에서
 데이터 다운로드 dry-run의 현재 상태는 **미실행**이다. 실제 자료를 받기 전
 단일 250 MiB / 총 1 GiB 한도, 사용 조건, SCOPe 2.01 대응 라벨 확보 여부를
 검증해야 한다. README 링크의 존재는 자료 재현 성공이 아니다.
+
+## M3 — 2026-09-05 실제 다운로드·실행 확인
+
+위 M0 기록은 당시 상태다. M3에서는 아래 자산을 로컬 `artifacts/`에 받고 실제 실행했다.
+
+| 자산 | 고정 버전 / SHA-256 |
+|---|---|
+| Foldseek | release `10-941cd33`, commit `941cd33ff0771cd2e3f144e3293e22a2b87e9fda` |
+| macOS universal 실행 파일 | `1b446bbece6b01cf0a50b28419f353522204f44a10a5872462f8ad400d9aadab` |
+| data/mat3di.out | `63cdc9b17de248c790e934ffb7739d067a59c7c6cdb73a2c9c99de63e662b557` |
+| SCOP 구조 archive | `8bac002ff3c1329beaf14d6a645fab249b6dd2aae98e2093b40a6f49d3a60fa4` |
+| benchmark lookup | `35a09c180af6c224287330e474b02469da58d03cf3efb771f49327f250aa6453` |
+| foldseek-analysis | commit `654100b11242e581f9e6d43798b07a778903862e` |
+
+실제 `file`은 x86_64/arm64 Mach-O를 확인했고 `version`은 위 commit을 출력했다.
+고정 README는 Linux AVX2, Linux ARM64, macOS universal 및 별도 GPU 빌드를 안내한다.
+이번에는 Apple Silicon에서 네이티브로 실행할 macOS universal CPU 빌드를 선택했다.
+Linux/GPU 빌드는 설치하거나 실행 검증하지 않았다.
+version/createdb/convert2fasta/easy-search/search/convertalis help와 실행 stdout/stderr를
+`artifacts/m3-interface-20260905T060403Z/`에 보존했다. 원논문 버전 재현이 아니다.
+사용한 URL·기대 크기·용도·사용 조건은 `configs/m3-assets.json`과
+`configs/m3-structures.json`, 실제 수신 hash/시각은 해당 다운로드 manifest에 있다.
+인코더 무효 상태 처리 확인용 source 3개도 원 commit과 hash를 보존하며 구현에 복사하지 않았다.
+
+SCOPe 직접 서버 조회는 인증서 검증에 실패해 TLS 검증을 끄지 않았다.
+대신 최종 논문에 명시된 2.01/11,211개, 저자 제공 구조와 benchmark lookup의 전체 ID 대응을
+근거로 사용했다. 추가 설명과 출처 링크는 [M3_METHOD](M3_METHOD.md)에 있다.

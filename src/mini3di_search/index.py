@@ -79,13 +79,19 @@ def _payload(index: KmerIndex) -> dict:
     }
 
 
-def build_index(records: list[ProteinRecord], config: IndexConfig | None = None) -> KmerIndex:
+def build_index(
+    records: list[ProteinRecord], config: IndexConfig | None = None, *, allow_real: bool = False
+) -> KmerIndex:
     config = IndexConfig() if config is None else config
     validate_records(records)
     if not isinstance(config, IndexConfig):
         raise ValueError("expected IndexConfig")
-    if any(not r.synthetic for r in records):
+    if type(allow_real) is not bool:
+        raise ValueError("allow_real must be bool")
+    if not allow_real and any(not r.synthetic for r in records):
         raise ValueError("M2 index requires synthetic=true records")
+    if len({r.synthetic for r in records}) > 1:
+        raise ValueError("cannot mix synthetic and real index records")
     targets = tuple(sorted(records, key=lambda r: r.record_id))
     positions = defaultdict(list)
     for numeric_id, record in enumerate(targets):
@@ -105,7 +111,11 @@ def save_index(path: Path, index: KmerIndex) -> None:
 
 
 def load_index(
-    path: Path, *, expected: IndexConfig | None = None, manifest_hash: str | None = None
+    path: Path,
+    *,
+    expected: IndexConfig | None = None,
+    manifest_hash: str | None = None,
+    allow_real: bool = False,
 ) -> KmerIndex:
     """Rebuild and compare every posting, including missing postings.
 
@@ -127,7 +137,7 @@ def load_index(
             records.append(
                 ProteinRecord(**{**entry, "valid_seed_mask": tuple(entry["valid_seed_mask"])})
             )
-        rebuilt = build_index(records, config)
+        rebuilt = build_index(records, config, allow_real=allow_real)
         # Serialized comparison also rejects bool-for-int substitutions.
         if canonical(raw) != canonical({**_payload(rebuilt), "index_id": rebuilt.index_id}):
             raise ValueError("index metadata, manifest, ID or postings integrity mismatch")

@@ -1,0 +1,11 @@
+[
+  {
+    "name": "scop40pdb.tar.gz",
+    "url": "https://wwwuser.gwdguser.de/~compbiol/foldseek/scop40pdb.tar.gz",
+    "size_bytes": 306064157,
+    "source_release": "Foldseek paper SCOPe 2.01 benchmark; archive Last-Modified 2022-02-02",
+    "purpose": "select fixed domain structures for 20\u201330 query / 200\u2013300 target pilot",
+    "use_conditions": "Official author-hosted public benchmark derived from PDB structures; preserve source attribution, local research only. Mapping and release require validation before metrics.",
+    "size_evidence": "artifacts/m3-preflight-20260905T060403Z/structures.json"
+  }
+]

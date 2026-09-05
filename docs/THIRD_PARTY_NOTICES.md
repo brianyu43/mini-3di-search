@@ -20,3 +20,19 @@
 알고리즘을 설명하거나 결과를 독립 해석했다는 주장은 하지 않는다.
 외부 코드 / 데이터의 사용 조건을 검토하지 않은 상태에서 저장소 전체에
 임의의 오픈소스 라이선스를 부여하거나 공개 배포하지 않았다.
+
+## M3에서 추가 사용한 외부 자산
+
+위 실행 파일/자료 미포함 문장은 Git에 들어가는 파일 기준이다. M3에서는 다음 자산을
+Git이 무시하는 `artifacts/`에 다운로드하여 로컬 연구에 사용했다.
+
+- Foldseek binary, learned mat3di 및 참고 source: GPL-3.0. pinned commit의 `LICENSE.md`를
+  함께 보존했다. 프로젝트는 upstream 구현을 복사하지 않고 CLI adapter로 호출한다.
+- SCOPe 2.01 구조: 저자가 공개한 PDB 유래 benchmark. 원 출처와 구조별 hash를 유지한다.
+  원본 archive와 구조 파일을 Git에 넣거나 외부로 업로드하지 않았다.
+- foldseek-analysis benchmark lookup: 위 [UPSTREAM](UPSTREAM.md)의 고정 commit에서 받았다.
+  저장소 전체에 별도 license가 명시되어 있지 않아 자산을 임의로 재라이선스하거나 배포하지 않는다.
+  로컬 평가용 원본과 source URL/hash를 보존한다. 분류 라벨은 공식 도구의 검색 결과가 아니다.
+
+현재 로컬 연구 실행과 공개 재배포에 필요한 조건은 구분한다. 외부 자료를 포함한 패키지를
+공개 배포하는 작업은 이번에 수행하지 않았다.

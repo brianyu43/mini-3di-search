@@ -8,7 +8,13 @@ from .index import IndexConfig, KmerIndex, digest
 from .prefilter import collect_hits, filter_ungapped, supported_diagonals
 from .records import Alphabet, ProteinRecord, validate_records
 from .scoring import Scoring
-from .search import MAX_REFERENCE_TOTAL_CELLS, Hit, exhaustive_search
+from .search import (
+    MAX_REFERENCE_TOTAL_CELLS,
+    Hit,
+    exhaustive_search,
+    validate_budget,
+    validate_origin,
+)
 
 MODES = ("exhaustive", "single", "double", "double-ungapped")
 
@@ -42,6 +48,7 @@ class SearchResult:
     scoring_id: str
     top_k: int
     query_hash: str
+    synthetic: bool = True
 
 
 def search_index(
@@ -51,6 +58,8 @@ def search_index(
     config: SearchConfig | None = None,
     *,
     top_k: int = 10,
+    allow_real: bool = False,
+    max_total_cells: int = MAX_REFERENCE_TOTAL_CELLS,
 ) -> SearchResult:
     config = SearchConfig() if config is None else config
     index.check_config(IndexConfig(config.k))
@@ -60,13 +69,13 @@ def search_index(
     if scoring.matrix.kind is not Alphabet.THREE_DI:
         raise ValueError("M2 search requires a 3Di matrix")
     records = [*queries, *index.targets]
-    if not scoring.matrix.synthetic or any(not r.synthetic for r in records):
-        raise ValueError("M2 search requires synthetic=true records and matrix")
+    validate_origin(records, scoring, allow_real)
+    validate_budget(max_total_cells)
     for record in records:
         scoring.matrix.encode(record.sequence(Alphabet.THREE_DI))
     total_t = sum(len(r.three_di) for r in index.targets)
-    if sum(len(q.three_di) for q in queries) * total_t > MAX_REFERENCE_TOTAL_CELLS:
-        raise ValueError("M2 comparison exceeds the 10 million exhaustive-cell budget")
+    if sum(len(q.three_di) for q in queries) * total_t > max_total_cells:
+        raise ValueError(f"comparison exceeds the exhaustive-cell budget ({max_total_cells})")
     max_q = max((len(q.three_di) for q in queries), default=0)
     max_t = max((len(t.three_di) for t in index.targets), default=0)
     scoring.guard_range(max_q, max_t)
@@ -94,7 +103,14 @@ def search_index(
         filtered = perf_counter()
         targets = [index.targets[i] for i in candidate_ids]
         # No fallback or cap: even an empty candidate list follows this path.
-        query_hits = exhaustive_search([query], targets, scoring, top_k=top_k)
+        query_hits = exhaustive_search(
+            [query],
+            targets,
+            scoring,
+            top_k=top_k,
+            allow_real=allow_real,
+            max_total_cells=max_total_cells,
+        )
         aligned = perf_counter()
         hits.extend(query_hits)
         cells = len(query.three_di) * sum(len(t.three_di) for t in targets)
@@ -142,6 +158,7 @@ def search_index(
         scoring.scoring_id,
         top_k,
         digest([asdict(q) for q in queries]),
+        scoring.matrix.synthetic,
     )
 
 
@@ -194,6 +211,7 @@ def result_metadata(result: SearchResult) -> dict:
         "index_id": result.index_id,
         "query_hash": result.query_hash,
         "scoring_id": result.scoring_id,
+        "synthetic": result.synthetic,
         "backend": "python-reference",
         "top_k": result.top_k,
         "aligned_pairs": sum(d["aligned_pairs"] for d in result.diagnostics),

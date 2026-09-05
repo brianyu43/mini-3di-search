@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "mini-3di-search"
 version = "0.1.0.dev1"
-description = "Educational 3Di search: M0–M2 alignment, exact seed filters and synthetic evaluation"
+description = "Educational 3Di search: reference alignment, seed filters and a real Foldseek pilot"
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 dependencies = ["psutil"]

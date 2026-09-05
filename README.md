@@ -1,10 +1,13 @@
 # mini-3di-search
 
-Foldseek의 검색 단계에서 영감을 받은 교육용 프로젝트다. **현재 M0/M1/M2 구현**은
-직접 작성한 affine-gap Smith–Waterman 정렬, exact k-mer 인덱스와 후보 필터,
-독립 검증 및 합성 검색 손실 비교다. 전체 6단계 중 3단계를 완료했다.
-전체 검색 엔진 v0.1은 아직 partial이다. 실제 구조 / 학습된 3Di 행렬 / Foldseek
-실행 결과 / 생물학적 성능 수치는 포함하지 않는다.
+Foldseek의 검색 단계에서 영감을 받은 교육용 프로젝트다. **M0–M3, 6단계 중 4단계를 완료**했다.
+직접 작성한 정렬·인덱스·후보 필터를 실제 구조의 3Di에 적용하고, 공식 Foldseek 및
+독립 SCOPe 분류와 비교했다. 전체 v0.1은 partial이며 Numba 최적화와 잠금 평가는 남아 있다.
+
+실제 pilot은 질의 25개 × 대상 250개다. 가장 강한 필터는 전수 대비 DP 계산량을 22.47%
+줄이고 자체 전수 top10을 평균 89.6% 보존했다. 모든 **181개 검사 통과**.
+단일 개발 pilot이며 원논문 전체 재현이나 Foldseek보다 우수하다는 주장은 하지 않는다.
+[M3 결과와 실제 산출물](docs/M3_RESULTS.md), [M3 방법](docs/M3_METHOD.md)을 참조한다.
 
 ## 지금 실행하기
 
@@ -66,7 +69,7 @@ python -m pip install --cache-dir .uv-cache/pip --no-build-isolation -c requirem
 새로운 OS / Python 조합은 아직 검증하지 않았다. Numba 최적화는 M4에서 별도로
 환경 호환성과 점수 동등성을 확인한다.
 
-전체 M0–M2 검증과 실제 명령 / exit status / stdout / stderr / source hash 기록:
+M0–M2의 오프라인 회귀 검사와 실제 명령 / exit status / source hash 기록:
 
 ```bash
 python scripts/verify_m2.py
@@ -74,7 +77,18 @@ python scripts/verify_m2.py
 
 이 명령의 설치 검사는 이미 설치된 lock 의존성을 사용해 네트워크 없이 수행한다.
 기록은 매번 새로운 `artifacts/m2-validation-*/`에 남고, 실패하면 그 단계에서 멈춘다.
-M1 데모와 기존 정렬 검사도 포함한다. 마지막 실행은 **149 passed / 0 failed / 0 skipped**다.
+M1 데모와 기존 정렬 검사도 포함한다. M2 종료 당시 결과는 **149 passed**였다.
+
+실제 M3 산출물까지 검증하려면 다음을 실행한다. 해당 두 실제 실행 폴더가 필요하며
+mock이나 합성 입력으로 대신하지 않는다. 최신 결과는 **181 passed / 0 failed / 0 skipped**다.
+
+```bash
+python scripts/verify_m3.py --smoke artifacts/m3-real-smoke-20260905T061645Z --pilot artifacts/m3-pilot-run-20260905T063600Z
+```
+
+설치된 고정 자산에서 새 pilot을 만드는 명령과 최초 다운로드 경로는
+[M3_RESULTS](docs/M3_RESULTS.md)에 있다. 실제 자료 실행은 `scripts/m3_pilot.py`의
+prepare/run 경로를 사용한다. 위의 기본 `index/search` CLI는 합성 자료용 경계를 유지한다.
 
 ## 구현 범위
 
@@ -85,8 +99,8 @@ M1 데모와 기존 정렬 검사도 포함한다. 마지막 실행은 **149 pas
 | 구현 | Biopython oracle, Hypothesis, 수동 fixture, 독립 경로 열거 검증 |
 | 구현 | doctor / demo / validate-records / index / search CLI, 재실행 기록 |
 | 구현 M2 | k-mer 위치 인덱스, single / double / ungapped filter, 검색 손실 측정 |
-| 미착수 M3 | 실제 3Di 자료와 label 대응, 공식 Foldseek 실행 비교 |
-| 미착수 M4/M5 | Numba 성능 분석, 설정 동결, 생물학적 평가와 최종 보고서 |
+| 구현 M3 | bounded prepare, 실제 encoder/ID/label 대응, 25×250 자체·공식 검색과 개발 평가 |
+| 미착수 M4/M5 | Numba 성능 분석, 별도 잠금 평가와 최종 보고서 |
 
 Biopython은 테스트 oracle로만 쓴다. 자체 정렬 / 전수검색에서 외부 aligner를
 호출하지 않는다. 자체 raw score는 E-value / bit score / TM-score가 아니다.
@@ -100,7 +114,7 @@ Biopython은 테스트 oracle로만 쓴다. 자체 정렬 / 전수검색에서 �
 - [현재 상태와 실행 결과](docs/STATUS.md)
 - [단계별 실행 계획](docs/EXEC_PLAN.md), [구현 결정](docs/DECISIONS.md)
 - [연구 명세](RESEARCH_PLAN.md), [후속 세션 프롬프트](CODEX_PROMPTS.md)
-- [원본 출처 목록](SOURCES.md), [M0 upstream 조사](docs/UPSTREAM.md)
+- [원본 출처 목록](SOURCES.md), [upstream 조사와 M3 고정 자산](docs/UPSTREAM.md)
 - [기여와 외부 자산 범위](docs/THIRD_PARTY_NOTICES.md)
 
-다음 작업은 **M3**의 실제 자료 dry-run 및 공식 encoder 검증이다. 현재 실행은 M2에서 끝냈다.
+현재 실행은 **M3에서 종료**했다. 다음 단계는 **M4**의 profiling/Numba 검증이다.

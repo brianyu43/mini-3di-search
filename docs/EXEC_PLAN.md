@@ -3,7 +3,7 @@
 2026-09-05 시작. 사용자 요청으로 GPT 대화의 원본 Markdown 5개를 가져왔다.
 원본과 SHA-256은 `docs/original/`에 보존한다.
 첫 세션은 `CODEX_PROMPTS.md` 1번의 **M0 + M1**이었다.
-후속 목표에 따라 현재 작업은 2번의 **M2만**이다.
+M2를 마쳤고, 현재 사용자 목표 `m3 plan and go`에 따라 3번의 **M3만** 수행한다.
 
 ## M0 — 범위, 환경, 출처
 
@@ -38,13 +38,30 @@
 합성 데모의 ungapped threshold=20은 동작 확인용으로 실행 전에 정한다.
 생물학적 최적값으로 취급하거나 결과를 보고 조정하지 않는다.
 
+## M3 — 실제 구조 연결과 공식 도구 비교
+
+- [x] 기존 M1/M2 baseline: 149 passed, exit 0.
+  `artifacts/m3-baseline-20260905T060320Z/`.
+- [x] release/commit, macOS 바이너리, 행렬, 구조/label 출처와 크기 dry-run.
+- [x] prepare CLI, 제한을 지키는 다운로드, 안전한 추출, manifest/exclusion 로그.
+- [x] 버전 고정 Foldseek adapter 및 5개 실제 구조 export 검증.
+- [x] ID/chain/길이/unknown 정책, 실제 행렬 hash와 parser 검증.
+- [x] 예산 내 25 query / 250 target pilot 및 self/동일 AA/원본 PDB 제외.
+- [x] 같은 구조 집합의 자체 검색과 공식 Foldseek 검색, label 대응 및 결과 기록.
+- [x] 전체 181 tests, 실제 integration 검사, 문서와 상태 갱신.
+
+자료/설정을 검색 결과 전에 고정한다. 기본 다운로드 상한은 파일별 250 MiB,
+총 1 GiB다. 실험은 1 compute thread, 15분/반복, 8 GiB RSS, DP 10^9 cells 이내다.
+HTTP 크기 불명/초과 자료는 다운로드하지 않고 대안의 출처와 조건부터 확인한다.
+공식 archive 1개에 한해 사용자가 300MiB 상한을 승인했다. 해당 예외로 306,064,157 bytes를
+받았고 실제 다운로드 manifest 합계는 323,976,401 bytes다. D011과 승인 JSON에 기록했다.
+
 ## 이후 — 미착수
 
-- [ ] M3: 실제 구조 자료 dry-run, encoder, ID 대응, 공식 Foldseek 비교.
 - [ ] M4: Numba CPU 정렬 및 같은 backend로 성능 분석.
 - [ ] M5: 설정 동결, 실제 데이터 평가와 보고서.
 
-M3 이후, 실제 구조 DB 다운로드, GPU, 업로드, GitHub push는 이번 범위 밖이다.
+M4 이후, GPU, 업로드, GitHub push는 이번 범위 밖이다.
 
 ## 검증 명령
 
@@ -72,5 +89,11 @@ M2 최종 검증: `artifacts/m2-validation-20260905T055822Z-0c4a55a2/validation.
 합성 데모는 `artifacts/m2/m2-20260905T055825Z-b88352c2/`에 저장했다.
 상세 결과와 한계는 [M2_RESULTS](M2_RESULTS.md)를 참조한다.
 
-다음 작업 하나: `CODEX_PROMPTS.md` 3번으로 **M3 dry-run**부터 시작한다.
-이번에는 실제 구조 DB 다운로드, Foldseek 실행, M3 이후 구현을 진행하지 않았다.
+M3 최종 검증: `artifacts/m3-validation-20260905T063126Z/validation.json`.
+7개 명령 exit 0, **181 passed / 0 failed / 0 skipped**. 실제 pilot은
+`artifacts/m3-pilot-run-20260905T063600Z/`, 입력 동결은
+`artifacts/m3-pilot-data-20260905T063500Z/freeze.json`에 저장했다.
+고정 설정에서 계산 생략과 손실을 함께 측정했고 자세한 결과는 [M3_RESULTS](M3_RESULTS.md)에 있다.
+
+다음 작업 하나: `CODEX_PROMPTS.md` 4번으로 **M4 profiling**을 시작한다.
+이번 작업은 M3에서 멈춘다. M4/M5, GPU, 업로드, 원격 push는 진행하지 않았다.

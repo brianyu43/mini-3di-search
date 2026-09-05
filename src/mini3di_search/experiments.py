@@ -48,7 +48,7 @@ def write_hits(path: Path, result, run_id: str) -> None:
                     "scoring_id": result.scoring_id,
                     "index_id": result.index_id,
                     "run_id": run_id,
-                    "synthetic": "true",
+                    "synthetic": str(result.synthetic).lower(),
                 }
             )
 

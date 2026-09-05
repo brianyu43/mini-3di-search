@@ -63,3 +63,45 @@ retain_exact@10은 출력 hit 수가 아니라 후보 집합을 기준으로 계
 NA다. query 내용 / index / scoring hash가 같은 결과만 비교한다. 작은 고정 synthetic
 stress 결과와 단일 순서 실행 시간은 biological / speed benchmark로 표현하지 않는다.
 상세 정의와 독립 brute-force 검사는 [M2_METHOD](M2_METHOD.md)에 기록한다.
+
+## D010 — M3 범위와 실제 입력 진입점
+
+사용자 목표 `m3 plan and go`에 따라 D1 실제 pilot까지 진행한다. M4/M5는 시작하지 않는다.
+`prepare --plan`, `encode --structures` CLI와 `scripts/m3_pilot.py prepare/run`을 구현했다.
+원본의 TOML 기반 단일 CLI 명령은 아직 그대로 제공하지 않는다. 현재 실행 명령을 README에
+정확히 기록하고, `configs/pilot.json`의 명시적 경로·hash를 사용한다.
+기존 synthetic search의 기본 경계를 유지하고 실제 API에는 `allow_real=True`를 요구한다.
+
+## D011 — 한 파일에 대한 용량 승인
+
+공식 구조 묶음은 306,064,157 bytes(291.9MiB)여서 기본 250MiB 한도를 넘었다.
+사용자가 **“허용: 이 파일만 최대 300MiB”**라고 명시적으로 승인했다.
+이 파일만 314,572,800 bytes 상한으로 실행했고 다른 파일의 기본 250MiB와 총 1GiB는 유지했다.
+승인은 `artifacts/m3-preflight-20260905T060403Z/download-approval.json`에 기록했다.
+다운로드 manifest 합계는 323,976,401 bytes다. 소규모 사전 HTTP/문서 조회 응답은 이 합계와 별개이며
+전체 한도까지 충분한 여유가 있다. 압축 전체를 풀지 않고 선택한 파일만 안전하게 추출한다.
+
+## D012 — 실제 ID와 무효 3Di 위치
+
+actual help/export와 pinned encoder source를 함께 확인했다. SS header DB 누락은 검증된
+key 집합을 가진 AA header의 로컬 hardlink로 해결한다. 일부 점 포함 SCOP ID의 확장자 제거는
+실제 `.source/.lookup`에서 확인하고 원본 파일의 유일한 대응으로 복원한다.
+완전한 N/CA/C 입력만 지원하고 양끝·명시적 SS X를 seed에서 제외한다. D 전체를 무효로
+오인하지 않는다. 세부 사항과 실패 로그 위치는 M3_METHOD/M3_RESULTS에 남긴다.
+
+## D013 — D1 pilot의 점수와 분류
+
+자체 점수는 고정 commit의 learned mat3di와 계획의 gap 10/1이다. k=3/W=64/threshold=20을
+검색 전에 고정했다. 결과를 보고 threshold를 바꾸지 않는다. D1은 positive를 포함하도록 고른
+작은 개발 자료이며 자연 DB의 성능이나 M5 잠금 테스트로 부르지 않는다.
+SCOPe 2.01 논문 benchmark와 분석 저장소의 benchmark lookup을 연결하고 11,211개 전체 ID
+일치를 검사한다. training 경로의 2.07과 섞지 않는다. 독립 라벨 평가는 검색 결과와 분리한다.
+biological ambiguous 제외 후 top10을 만들기 위해 자체 검색은 최대 250개 양수 결과를 저장한다.
+
+## D014 — 공식 비교와 시간의 의미
+
+공식 release 10은 원논문 실행 버전이 아니다. 기본 3Di+AA와 공식 출력 순서를 유지한다.
+실제로 거부된 `raw` 열은 쓰지 않고 bits/evalue와 자체 raw_score를 분리한다.
+같은 Python backend의 4개 모드를 각 1회 실행한다. RSS는 관측한 표본 최대다.
+정렬/traceback/재채점/랭킹은 아직 합산 시간이며 세부 profiling/Numba는 M4에 남긴다.
+원논문 성능 배수나 두 도구의 순수 정렬 kernel 속도 비교를 주장하지 않는다.
