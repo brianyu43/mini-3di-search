@@ -1,13 +1,17 @@
 # mini-3di-search
 
-Foldseek의 검색 단계에서 영감을 받은 교육용 프로젝트다. **M0–M3, 6단계 중 4단계를 완료**했다.
+Foldseek의 검색 단계에서 영감을 받은 교육용 프로젝트다. **M0–M4, 6단계 중 5단계를 완료**했다.
 직접 작성한 정렬·인덱스·후보 필터를 실제 구조의 3Di에 적용하고, 공식 Foldseek 및
-독립 SCOPe 분류와 비교했다. 전체 v0.1은 partial이며 Numba 최적화와 잠금 평가는 남아 있다.
+독립 SCOPe 분류와 비교했다. Numba CPU 점수 커널과 성능 분석을 마쳤으며,
+전체 v0.1은 partial이다. 별도 자료를 사용하는 잠금 평가는 남아 있다.
 
-실제 pilot은 질의 25개 × 대상 250개다. 가장 강한 필터는 전수 대비 DP 계산량을 22.47%
-줄이고 자체 전수 top10을 평균 89.6% 보존했다. 모든 **181개 검사 통과**.
+실제 pilot은 질의 25개 × 대상 250개다. Numba 점수 6,250개가 기존 Python과 모두 같고
+**214개 검사 통과**. 같은 backend에서 전수검색은 3.777초, double 필터는 4.947초였다
+(warm 3회 중앙값, 상위 10개 상세 정렬 포함). double은 score DP를 18.11% 줄이고
+전수 top10을 평균 90.0% 보존했지만 후보 생성 비용 때문에 느렸다. 현재 D1 권고는 전수검색이다.
 단일 개발 pilot이며 원논문 전체 재현이나 Foldseek보다 우수하다는 주장은 하지 않는다.
-[M3 결과와 실제 산출물](docs/M3_RESULTS.md), [M3 방법](docs/M3_METHOD.md)을 참조한다.
+[M4 실측 결과](docs/M4_RESULTS.md), [M4 방법](docs/M4_METHOD.md),
+[공식 Foldseek와의 M3 비교](docs/M3_RESULTS.md)를 참조한다.
 
 ## 지금 실행하기
 
@@ -66,8 +70,8 @@ python -m pip install --cache-dir .uv-cache/pip -r requirements-dev.lock.txt
 python -m pip install --cache-dir .uv-cache/pip --no-build-isolation -c requirements-dev.lock.txt -e '.[dev]'
 ```
 
-새로운 OS / Python 조합은 아직 검증하지 않았다. Numba 최적화는 M4에서 별도로
-환경 호환성과 점수 동등성을 확인한다.
+새로운 OS / Python 조합은 아직 검증하지 않았다. 현재 조합에서 Numba 0.67.0 /
+llvmlite 0.49.0의 설치, 점수 동등성과 실제 검색을 확인했다.
 
 M0–M2의 오프라인 회귀 검사와 실제 명령 / exit status / source hash 기록:
 
@@ -80,7 +84,7 @@ python scripts/verify_m2.py
 M1 데모와 기존 정렬 검사도 포함한다. M2 종료 당시 결과는 **149 passed**였다.
 
 실제 M3 산출물까지 검증하려면 다음을 실행한다. 해당 두 실제 실행 폴더가 필요하며
-mock이나 합성 입력으로 대신하지 않는다. 최신 결과는 **181 passed / 0 failed / 0 skipped**다.
+mock이나 합성 입력으로 대신하지 않는다. M3 종료 당시 **181 passed / 0 failed / 0 skipped**였다.
 
 ```bash
 python scripts/verify_m3.py --smoke artifacts/m3-real-smoke-20260905T061645Z --pilot artifacts/m3-pilot-run-20260905T063600Z
@@ -89,6 +93,22 @@ python scripts/verify_m3.py --smoke artifacts/m3-real-smoke-20260905T061645Z --p
 설치된 고정 자산에서 새 pilot을 만드는 명령과 최초 다운로드 경로는
 [M3_RESULTS](docs/M3_RESULTS.md)에 있다. 실제 자료 실행은 `scripts/m3_pilot.py`의
 prepare/run 경로를 사용한다. 위의 기본 `index/search` CLI는 합성 자료용 경계를 유지한다.
+
+M4의 실제 자료·90회 실험 산출물까지 포함한 최종 검증은 **214 passed**였다.
+
+```bash
+python scripts/verify_m4.py --smoke artifacts/m3-real-smoke-20260905T061645Z --pilot artifacts/m3-pilot-run-20260905T063600Z --study artifacts/m4-study-20260905T065600Z
+```
+
+설치된 `m3di-fast`는 검증한 실제 3Di 입력에도 쓸 수 있다. 새 출력 경로를 지정한다.
+
+```bash
+m3di-fast --queries artifacts/m3-pilot-data-20260905T063500Z/queries.jsonl --db artifacts/m4-study-20260905T065600Z/indexes/k3.json --matrix artifacts/m3-downloads-20260905T060403Z/downloads/data__mat3di.out --matrix-source https://raw.githubusercontent.com/steineggerlab/foldseek/941cd33ff0771cd2e3f144e3293e22a2b87e9fda/data/mat3di.out --real --mode exhaustive --k 3 --window 64 --out artifacts/my-numba-search
+```
+
+`scores.tsv`에는 모든 양수 후보 점수, `hits.tsv`에는 상위 10개의 좌표·CIGAR,
+`run.json`에는 입력·설정·JIT·단계별 시간·관측 RSS가 남는다. 자체 raw score이며
+통계적 유의성 점수가 아니다. 데이터와 큰 실행 산출물은 Git에 포함하지 않는다.
 
 ## 구현 범위
 
@@ -100,7 +120,8 @@ prepare/run 경로를 사용한다. 위의 기본 `index/search` CLI는 합성 �
 | 구현 | doctor / demo / validate-records / index / search CLI, 재실행 기록 |
 | 구현 M2 | k-mer 위치 인덱스, single / double / ungapped filter, 검색 손실 측정 |
 | 구현 M3 | bounded prepare, 실제 encoder/ID/label 대응, 25×250 자체·공식 검색과 개발 평가 |
-| 미착수 M4/M5 | Numba 성능 분석, 별도 잠금 평가와 최종 보고서 |
+| 구현 M4 | int64 Numba rolling-row score, 실제 CLI, 18개 설정·90회 반복·병목 분석 |
+| 미착수 M5 | 별도 잠금 평가와 최종 보고서 |
 
 Biopython은 테스트 oracle로만 쓴다. 자체 정렬 / 전수검색에서 외부 aligner를
 호출하지 않는다. 자체 raw score는 E-value / bit score / TM-score가 아니다.
@@ -117,4 +138,4 @@ Biopython은 테스트 oracle로만 쓴다. 자체 정렬 / 전수검색에서 �
 - [원본 출처 목록](SOURCES.md), [upstream 조사와 M3 고정 자산](docs/UPSTREAM.md)
 - [기여와 외부 자산 범위](docs/THIRD_PARTY_NOTICES.md)
 
-현재 실행은 **M3에서 종료**했다. 다음 단계는 **M4**의 profiling/Numba 검증이다.
+현재 실행은 **M4에서 종료**했다. 다음 단계는 **M5**의 설정·test 동결과 최종 평가다.

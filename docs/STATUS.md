@@ -1,6 +1,6 @@
 # 현재 상태
 
-2026-09-05: **M0 / M1 / M2 / M3 completed**, 전체 6단계 중 **4단계 완료**다.
+2026-09-05: **M0 / M1 / M2 / M3 / M4 completed**, 전체 6단계 중 **5단계 완료**다.
 전체 v0.1은 **partial**이다.
 
 | 단계 | 상태 | 증거 |
@@ -9,10 +9,23 @@
 | M1 | completed | 직접 작성한 정렬 / 재채점 / 합성 전수검색; 96 passed, 0 failed, 0 skipped |
 | M2 | completed | 인덱스 / single / double / ungapped / 진단 / 보존율; 전체 149 passed, 0 failed, 0 skipped |
 | M3 | completed | 실제 25×250 pilot / ID·label 대응 / 자체·공식 비교 / 전체 181 passed, 0 failed, 0 skipped |
-| M4 | not_started | Numba / 성능 최적화 미구현 |
+| M4 | completed | Numba 점수 동등성 6,250쌍 / 18개 개발 조합 / 90회 실측 / 전체 214 passed |
 | M5 | not_started | 별도 잠금 test / 일반화 평가 / 최종 보고서 없음 |
 
 ## 실행 결과
+
+최신 M4 결과:
+
+- [최종 검증](../artifacts/m4-validation-20260905T070839Z/validation.json):
+  **214 passed / 0 failed / 0 skipped**, 설치·실제 CLI·Ruff 등 9개 명령 exit 0.
+- [결과 보고서](M4_RESULTS.md), [방법](M4_METHOD.md),
+  [실측 연구](../artifacts/m4-study-20260905T065600Z/study.json).
+- 같은 Numba backend의 warm 중앙값: 전수 3.777초 / single 5.088초 /
+  double 4.947초 / double+ungapped 7.378초. 후보 감소가 시간 절약으로 이어지지 않았다.
+- [개발 선택](../configs/dev-selected.json): 운영 preferred는 exhaustive,
+  필터 중 best는 double k3/W64(자체 전수 top10 평균 90.0% 보존)다.
+- 새 프로세스·실제 encode 포함 반복 및 process-tree RSS를 별도 기록했다.
+  end-to-end 내부 sampler 12회는 incomplete이며 독립 부모 관측 12회는 complete다.
 
 최신 M3 결과:
 
@@ -52,10 +65,10 @@
 
 ## 범위와 남은 확인
 
-M3를 막는 blocker는 없다. 실제 자료는 독립 라벨과 연결된 작은 개발 pilot이다.
-M3 RSS는 전체 process tree를 관측했지만 표본 사이의 순간 peak는 놓칠 수 있다.
+M4를 막는 blocker는 없다. 실제 자료는 독립 라벨과 연결된 작은 개발 pilot이다.
+RSS는 process-tree 표본 관측이며 표본 사이의 순간 peak는 놓칠 수 있다.
 M2 당시 일부 RSS 관측 및 합성 자료라는 경계도 유지한다.
 원논문 버전/전체 benchmark 재현, 일반적인 성능 우위, 잠금 test 결과를 주장하지 않는다.
 
-다음 단계는 **M4 같은 backend의 profiling / Numba 검증**이다. 이번에는 시작하지 않았다.
+다음 단계는 **M5 별도 test와 설정 동결 후 최종 평가**다. 이번에는 시작하지 않았다.
 연구 계약과 후속 프롬프트는 변경하지 않았다. 로컬 저장소만 사용하며 원격 push는 없다.

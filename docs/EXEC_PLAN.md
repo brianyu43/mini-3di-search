@@ -3,7 +3,7 @@
 2026-09-05 시작. 사용자 요청으로 GPT 대화의 원본 Markdown 5개를 가져왔다.
 원본과 SHA-256은 `docs/original/`에 보존한다.
 첫 세션은 `CODEX_PROMPTS.md` 1번의 **M0 + M1**이었다.
-M2를 마쳤고, 현재 사용자 목표 `m3 plan and go`에 따라 3번의 **M3만** 수행한다.
+사용자 목표 `m4 계획 및 go`에 따라 4번의 **M4까지 완료**했다. M5는 미착수다.
 
 ## M0 — 범위, 환경, 출처
 
@@ -56,12 +56,30 @@ HTTP 크기 불명/초과 자료는 다운로드하지 않고 대안의 출처�
 공식 archive 1개에 한해 사용자가 300MiB 상한을 승인했다. 해당 예외로 306,064,157 bytes를
 받았고 실제 다운로드 manifest 합계는 323,976,401 bytes다. D011과 승인 JSON에 기록했다.
 
+## M4 — Numba와 같은 backend의 성능 분석
+
+- [x] 기존 M0–M3 전체 회귀·실제 자료 검증을 기준선으로 확인: 181 passed.
+- [x] Python/NumPy를 유지하는 Numba 0.67.0/llvmlite 0.49.0 조회·로컬 설치·lock.
+- [x] 기존 Python reference를 그대로 두고 int64 rolling-row score kernel 추가.
+- [x] Python/Numba/Biopython 동등성, overflow/경계 및 실제 6,250쌍 확인: gate 209 passed.
+- [x] A0–A3 모두 같은 Numba score, 같은 top10 traceback 출력과 독립 재채점.
+- [x] encode/index/load/candidate/ungapped/SW/traceback/output/JIT 시간 분리.
+- [x] 고정 M3 D1에서 섞인 순서·3회 반복·median/range·process-tree RSS.
+- [x] 18개 개발 조합 평가: best filtered double k3/W64, retention 0.90.
+- [x] warm / fresh process / 실제 encode 포함 end-to-end 총 90회 실측.
+- [x] 병목 profile, raw metrics·품질·누락·선택 이유, 전체 214 tests와 문서 확인.
+
+원본 M3 입력·행렬·gap·Python reference는 유지한다. 새 데이터나 M5 test는 열지 않는다.
+개발 grid는 k={2,3,4}, W={32,64,128}의 double 9조합을 먼저 평가하고, 그중 최대 3개
+Pareto 후보에서 threshold={20,40,80} 최대 9조합을 추가한다. 기준선 A0/A1은 별도 ablation이다.
+반복 3회, seed=20260905, 1 compute thread, 15분/반복·8GiB·전수10^9 cells를 유지한다.
+정확성 실패 시 성능 측정을 중단하고 실패 fixture부터 보존·수정한다.
+
 ## 이후 — 미착수
 
-- [ ] M4: Numba CPU 정렬 및 같은 backend로 성능 분석.
-- [ ] M5: 설정 동결, 실제 데이터 평가와 보고서.
+- [ ] M5: 별도 test 동결, 최종 평가와 보고서.
 
-M4 이후, GPU, 업로드, GitHub push는 이번 범위 밖이다.
+M5, GPU, 새 seed 알고리즘, 업로드, GitHub push는 이번 범위 밖이다.
 
 ## 검증 명령
 
@@ -95,5 +113,11 @@ M3 최종 검증: `artifacts/m3-validation-20260905T063126Z/validation.json`.
 `artifacts/m3-pilot-data-20260905T063500Z/freeze.json`에 저장했다.
 고정 설정에서 계산 생략과 손실을 함께 측정했고 자세한 결과는 [M3_RESULTS](M3_RESULTS.md)에 있다.
 
-다음 작업 하나: `CODEX_PROMPTS.md` 4번으로 **M4 profiling**을 시작한다.
-이번 작업은 M3에서 멈춘다. M4/M5, GPU, 업로드, 원격 push는 진행하지 않았다.
+M4 최종 검증: `artifacts/m4-validation-20260905T070839Z/validation.json`.
+9개 명령 exit 0, **214 passed / 0 failed / 0 skipped**, 실제 설치 CLI 전수검색도 성공했다.
+연구 원본은 `artifacts/m4-study-20260905T065600Z/`, 결과는 [M4_RESULTS](M4_RESULTS.md)다.
+전수검색이 warm 3.777초로 가장 빨라 운영 preferred로 선택했고, 필터 후보 중에는
+double k3/W64를 선택했다. 두 선택은 `configs/dev-selected.json`에 구분했다.
+
+다음 작업 하나: `CODEX_PROMPTS.md` 5번의 **M5 동결 평가**다.
+이번 작업은 M4에서 멈춘다. M5, GPU, 업로드, 원격 push는 진행하지 않았다.

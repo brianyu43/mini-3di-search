@@ -8,13 +8,14 @@ version = "0.1.0.dev1"
 description = "Educational 3Di search: reference alignment, seed filters and a real Foldseek pilot"
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
-dependencies = ["psutil"]
+dependencies = ["psutil", "numpy", "numba"]
 
 [project.optional-dependencies]
 dev = ["biopython", "numpy", "pytest", "hypothesis", "ruff"]
 
 [project.scripts]
 m3di = "mini3di_search.cli:main"
+m3di-fast = "mini3di_search.fast_cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

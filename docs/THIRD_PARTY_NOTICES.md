@@ -36,3 +36,11 @@ Git이 무시하는 `artifacts/`에 다운로드하여 로컬 연구에 사용�
 
 현재 로컬 연구 실행과 공개 재배포에 필요한 조건은 구분한다. 외부 자료를 포함한 패키지를
 공개 배포하는 작업은 이번에 수행하지 않았다.
+
+## M4 CPU 컴파일 의존성
+
+Numba 0.67.0과 llvmlite 0.49.0의 공식 PyPI macOS arm64 wheel을 `.venv`에 설치했다.
+BSD 계열 사용 조건과 배포본에 포함된 license/notice를 따른다. 소스 커널은 연구 계획의
+recurrence에서 직접 작성했으며 Numba/LLVM 소스 구현을 복사하지 않았다.
+실제 wheel과 hash, 설치 버전 기록은 `artifacts/m4-preflight-20260905T064421Z/` 및
+M4 study의 `installed-versions.json`에 있다. 시스템 LLVM이나 GPU SDK는 설치하지 않았다.

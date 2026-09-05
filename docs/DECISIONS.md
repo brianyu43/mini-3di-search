@@ -105,3 +105,38 @@ biological ambiguous 제외 후 top10을 만들기 위해 자체 검색은 최�
 같은 Python backend의 4개 모드를 각 1회 실행한다. RSS는 관측한 표본 최대다.
 정렬/traceback/재채점/랭킹은 아직 합산 시간이며 세부 profiling/Numba는 M4에 남긴다.
 원논문 성능 배수나 두 도구의 순수 정렬 kernel 속도 비교를 주장하지 않는다.
+
+## D015 — M4의 별도 Numba 엔진
+
+사용자 목표 `m4 계획 및 go`에 따라 int64 rolling-row score kernel과 배치 검색을 추가한다.
+`align_reference.py`를 포함한 M3 동결 source는 변경하지 않는다. 모든 후보는 같은 Numba로
+채점하고 raw top10만 기존 Python에서 재계산·traceback·독립 재채점한다.
+일반 실행은 새 `m3di-fast` CLI로 제공한다. 기존 합성 CLI의 동작은 유지한다.
+
+## D016 — 호환 환경과 portable lock
+
+공식 호환 표와 PyPI wheel을 확인해 Numba 0.67.0 / llvmlite 0.49.0만 추가했다.
+Python 3.12.14 / NumPy 2.5.2 및 기존 패키지 버전은 유지했다. 두 wheel의 URL·43,224,281 bytes·
+hash를 다운로드 전에 조회하고 실제 SHA-256을 대조했다.
+로컬 wheel 설치 뒤 pip freeze가 `file://` URL을 기록해 정확한 버전 pin으로 정규화했다.
+측정 시작 시 lock 원본은 `requirements-at-run.txt`, 정규화 전후 hash와 버전 불변 증거는
+study의 `lock-normalization.json`, `installed-versions.json`에 남긴다.
+
+## D017 — 공정한 M4 출력과 개발 선택
+
+모든 A0–A3는 같은 Numba score 및 같은 raw top10의 완전한 좌표/CIGAR 출력을 사용한다.
+biological top10의 ambiguous 제외를 위해 전체 양수 후보 score도 별도 저장한다.
+M3의 모든 후보 Python traceback과 비교해 순수 JIT/필터 성능 배수라고 부르지 않는다.
+개발 자료에서만 9개 k/W 조합과 최대 9개 threshold 조합을 평가한다.
+필터 내 Pareto 최적 설정과 실제 운용에서 A0/A1을 포함한 선택은 구분하며,
+전수검색이 더 빠르면 그것을 운용 결론으로 남긴다. 0.90 보존 목표를 낮추지 않는다.
+
+## D018 — 시간·메모리 범위
+
+JIT cache를 끄고 최초 호출과 warm 시간을 분리한다. 모든 방법을 3회씩 seed로 순서를 섞어
+측정하고 median/range를 남긴다. warm / fresh process / 실제 encode 포함 end-to-end를
+별도 실행한다. 새 process를 disk-cache cold로 부르지 않는다.
+RSS는 50ms 목표 간격의 process-tree 표본이며 관측 실패 flag를 유지한다. warm RSS에는
+JIT runtime과 allocator history도 포함된다. fresh/end-to-end는 부모 관측도 함께 기록한다.
+cProfile 결과는 계측 실행으로 분리하고 timing 반복에 섞지 않는다.
+M5 test, GPU, 새 seed 알고리즘, 추가 구조 다운로드, 업로드/원격 push는 수행하지 않는다.
