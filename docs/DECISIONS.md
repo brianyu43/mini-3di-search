@@ -43,3 +43,23 @@ scoring kind는 별도로 명시한다. M1 exhaustive API는 synthetic record / 
 명시적으로 처리하고 관측 가능한 프로세스 RSS를 기록하도록 수정했다.
 `process_tree_complete=false`를 기록하므로 부분 관측을 전체 RSS라 부르지 않는다.
 이 동작은 별도 권한 거부 / RSS 합산 회귀 테스트로 검증한다.
+
+## D007 — M2 범위와 점수 선택
+
+후속 목표에 따라 M2만 수행한다. M1 정렬과 점수는 유지한다. 기본 k=3, W=64는
+명세를 따르며 합성 데모 threshold=20은 실행 전 고정한 설명용 값이다. 평가 결과로
+설정을 조정하지 않는다. 숫자의 근거와 한계는 [SCORING_RATIONALE](SCORING_RATIONALE.md)에 남긴다.
+
+## D008 — 검증 가능한 작은 인덱스
+
+pickle 대신 versioned JSON을 쓰고 ID 순서를 고정한다. target manifest hash는
+전체 내부 합성 레코드의 canonical JSON hash다. 실제 구조 manifest와 구분한다.
+복원 시 인덱스를 재생성해 모든 posting을 검증하므로 load 비용은 따로 기록한다.
+필터에도 M1의 보수적인 전체 DP 한도를 적용하며, 초과는 후보 절단이 아닌 오류다.
+
+## D009 — 보존율과 실행 범위
+
+retain_exact@10은 출력 hit 수가 아니라 후보 집합을 기준으로 계산한다. 분모가 0이면
+NA다. query 내용 / index / scoring hash가 같은 결과만 비교한다. 작은 고정 synthetic
+stress 결과와 단일 순서 실행 시간은 biological / speed benchmark로 표현하지 않는다.
+상세 정의와 독립 brute-force 검사는 [M2_METHOD](M2_METHOD.md)에 기록한다.

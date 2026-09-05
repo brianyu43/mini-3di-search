@@ -13,8 +13,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def main() -> int:
-    run_id = "validation-" + datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ-") + uuid.uuid4().hex[:8]
+def main(stage: str = "m1") -> int:
+    if stage not in ("m1", "m2"):
+        raise ValueError("verification stage must be m1 or m2")
+    prefix = "validation-" if stage == "m1" else "m2-validation-"
+    run_id = prefix + datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ-") + uuid.uuid4().hex[:8]
     out = ROOT / "artifacts" / run_id
     out.mkdir(parents=True, exist_ok=False)
     env = os.environ.copy()
@@ -69,9 +72,28 @@ def main() -> int:
         ("ruff_check", [ruff, "check", "."]),
         ("ruff_format", [ruff, "format", "--check", "."]),
     ]
+    if stage == "m2":
+        commands.insert(
+            5,
+            (
+                "demo_m2",
+                [
+                    python,
+                    "-m",
+                    "mini3di_search.cli",
+                    "demo",
+                    "--stage",
+                    "m2",
+                    "--out",
+                    str(ROOT / "artifacts/m2"),
+                ],
+            ),
+        )
     report = {
         "run_id": run_id,
-        "scope": "M0/M1; synthetic correctness only",
+        "scope": "M0/M1; synthetic correctness only"
+        if stage == "m1"
+        else "M0–M2; synthetic correctness and retention only",
         "synthetic": True,
         "real_integration_passed": False,
         "commands": [],
@@ -104,10 +126,12 @@ def main() -> int:
             return result.returncode
         if label == "demo":
             report["demo"] = json.loads(result.stdout)
+        if label == "demo_m2":
+            report["demo_m2"] = json.loads(result.stdout)
     paths = [
         *ROOT.glob("src/**/*.py"),
         *ROOT.glob("tests/*.py"),
-        ROOT / "scripts/verify_m1.py",
+        *ROOT.glob("scripts/*.py"),
         ROOT / "pyproject.toml",
         ROOT / "requirements-dev.lock.txt",
         ROOT / ".python-version",
@@ -128,7 +152,11 @@ def main() -> int:
     report["original_document_hashes_verified"] = True
     report["completed"] = True
     (out / "validation.json").write_text(json.dumps(report, indent=2) + "\n")
-    print(json.dumps({"validation_dir": str(out), "demo": report["demo"]}, indent=2))
+    print(
+        json.dumps(
+            {"validation_dir": str(out), "demo": report.get("demo_m2", report["demo"])}, indent=2
+        )
+    )
     return 0
 
 

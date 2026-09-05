@@ -1,8 +1,9 @@
 # 실행 계획
 
 2026-09-05 시작. 사용자 요청으로 GPT 대화의 원본 Markdown 5개를 가져왔다.
-원본과 SHA-256은 `docs/original/`에 보존한다. 이번 작업은
-`CODEX_PROMPTS.md` 1번의 **M0 + M1**이다.
+원본과 SHA-256은 `docs/original/`에 보존한다.
+첫 세션은 `CODEX_PROMPTS.md` 1번의 **M0 + M1**이었다.
+후속 목표에 따라 현재 작업은 2번의 **M2만**이다.
 
 ## M0 — 범위, 환경, 출처
 
@@ -22,14 +23,28 @@
 - [x] 실제 설치 / doctor / demo / pytest / Ruff 검증, 결과 기록.
 - [x] README 및 STATUS 갱신 후 이번 세션 종료.
 
-## 다음 세션 이후 — 미착수
+## M2 — 후보 검색과 합성 손실 측정
 
-- [ ] M2: k-mer 인덱스, single / double / ungapped 필터.
+- [x] M1 baseline 재실행: 96 passed, exit 0.
+  `artifacts/m2-baseline-20260905T054836Z/baseline.json`에 기록.
+- [x] k=3 위치 인덱스, 명시적 mask, metadata/hash, 저장/복원.
+- [x] single / same-diagonal double / double+ungapped 후보 생성.
+- [x] 동일 Python 정렬로 4개 모드 비교, query별 계산량과 후보 기록.
+- [x] 독립 brute-force와 경계/실패 사례 검증.
+- [x] 고정 합성 자료에서 retain_exact@10 및 손실 사례 기록.
+- [x] CLI / 문서 / 전체 검증.
+
+설정은 k=3, W=64, 기존 synthetic 5/-4/X0 및 gap 10/1이다.
+합성 데모의 ungapped threshold=20은 동작 확인용으로 실행 전에 정한다.
+생물학적 최적값으로 취급하거나 결과를 보고 조정하지 않는다.
+
+## 이후 — 미착수
+
 - [ ] M3: 실제 구조 자료 dry-run, encoder, ID 대응, 공식 Foldseek 비교.
 - [ ] M4: Numba CPU 정렬 및 같은 backend로 성능 분석.
 - [ ] M5: 설정 동결, 실제 데이터 평가와 보고서.
 
-M2 이후, 실제 구조 DB 다운로드, GPU, 업로드, GitHub push는 이번 범위 밖이다.
+M3 이후, 실제 구조 DB 다운로드, GPU, 업로드, GitHub push는 이번 범위 밖이다.
 
 ## 검증 명령
 
@@ -52,5 +67,10 @@ ruff format --check .
 원본 Markdown 해시와 source/config/lock 23개 해시 확인 완료.
 상세 명령과 산출물은 [M1_RESULTS](M1_RESULTS.md)에 기록했다.
 
-다음 작업 하나: `CODEX_PROMPTS.md` 2번으로 M2 인덱스와 필터를 구현한다.
-이번에는 M2 이후를 시작하지 않았다.
+M2 최종 검증: `artifacts/m2-validation-20260905T055822Z-0c4a55a2/validation.json`.
+8개 명령 exit 0, **149 passed / 0 failed / 0 skipped**. 입력/인덱스/손실/지표의
+합성 데모는 `artifacts/m2/m2-20260905T055825Z-b88352c2/`에 저장했다.
+상세 결과와 한계는 [M2_RESULTS](M2_RESULTS.md)를 참조한다.
+
+다음 작업 하나: `CODEX_PROMPTS.md` 3번으로 **M3 dry-run**부터 시작한다.
+이번에는 실제 구조 DB 다운로드, Foldseek 실행, M3 이후 구현을 진행하지 않았다.
