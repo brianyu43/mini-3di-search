@@ -65,11 +65,11 @@ technical audience: 결과 요약 → 질문·범위·자료·지표 → 방법 
 - [x] 기존 M4 기준선 재검증: 214 passed, `m4-validation-20260905T155534Z`.
 - [x] D2 준비: 50×500, 50 folds, 667,972,214 cells; `m5-d2-20260906-v2`.
 - [x] 동결/평가/그림/검증 코드와 사전 gate 221 passed, 0 failed/skip.
-- [ ] 코드 commit 후 FREEZE와 설정 hash를 기록하고 실행 차단 검사.
-- [ ] 모든 실제 A0–A3/B0 반복 및 query별 지표.
-- [ ] 세 그림·실패 사례·4–6쪽 상당 REPORT·기여 구분.
-- [ ] 새 별도 venv에서 설치/offline demo/test와 실제 integration.
-- [ ] 요구사항별 완료 audit·문서 링크/원본/source hash·clean Git·로컬 커밋.
+- [x] 코드 `2149905` 후 FREEZE·1,707개 파일 hash 동결 및 실행 전후 검사.
+- [x] 실제 A0–A3/B0 87회 반복 및 질의별 지표·bootstrap·profile.
+- [x] 세 그림·실제 누락 사례·5쪽 상당 REPORT·기여 구분 및 렌더링 QA.
+- [x] 새 별도 venv offline 설치·demo·실제 integration: 225 passed, 12개 명령 exit 0.
+- [x] 요구사항별 [완료 감사](M5_AUDIT.md)·문서 링크/원본/source hash·로컬 완료 커밋.
 
 실제 통합 실행이 불완전하면 completed로 표시하지 않는다. GPU/UI/새 알고리즘/원격 push는 없다.
 사용자의 직접 코드 검증·결과 재현은 이 대화에서 확인되지 않았으므로 수행했다고 쓰지 않는다.

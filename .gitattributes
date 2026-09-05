@@ -1,0 +1,2 @@
+# Preserve byte-exact Matplotlib exports, whose SVG path data has trailing spaces.
+docs/figures/m5/*.svg whitespace=-blank-at-eol

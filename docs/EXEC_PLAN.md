@@ -3,7 +3,7 @@
 2026-09-05 시작. 사용자 요청으로 GPT 대화의 원본 Markdown 5개를 가져왔다.
 원본과 SHA-256은 `docs/original/`에 보존한다.
 첫 세션은 `CODEX_PROMPTS.md` 1번의 **M0 + M1**이었다.
-M4까지 완료했고 현재 사용자 목표 `m5 plan and go go`에 따라 **M5**를 수행한다.
+2026-09-06 사용자 목표 `m5 plan and go go`의 **M5까지 완료**했다.
 
 ## M0 — 범위, 환경, 출처
 
@@ -77,7 +77,10 @@ Pareto 후보에서 threshold={20,40,80} 최대 9조합을 추가한다. 기준�
 
 ## M5 — 동결 평가와 최종 보고
 
-- [ ] 별도 D2·코드·설정 동결, A0–A3/B0 반복, 세 그림·REPORT·새 venv 검증.
+- [x] 별도 D2 50×500·코드 `2149905`·설정·1,707개 파일 동결.
+- [x] A0–A3/B0 87회 실측, 네 DB 크기, 세 반복, fresh/실제 encode 전체 실행.
+- [x] 세 그림과 4–6쪽 상당 REPORT, 실패 사례·관측 한계·다음 실험 하나.
+- [x] 새 별도 venv 비편집 설치, offline demo, 실제 25,000쌍 독립 oracle/CLI, 225 tests.
   상세 체크리스트와 사전 계약은 [M5_PLAN](M5_PLAN.md)에 있다.
 
 GPU, 새 seed 알고리즘, 업로드, GitHub push는 이번 범위 밖이다.
@@ -120,5 +123,9 @@ M4 최종 검증: `artifacts/m4-validation-20260905T070839Z/validation.json`.
 전수검색이 warm 3.777초로 가장 빨라 운영 preferred로 선택했고, 필터 후보 중에는
 double k3/W64를 선택했다. 두 선택은 `configs/dev-selected.json`에 구분했다.
 
-다음 작업 하나: `CODEX_PROMPTS.md` 5번의 **M5 동결 평가**다.
-이번 작업은 M4에서 멈춘다. M5, GPU, 업로드, 원격 push는 진행하지 않았다.
+M5 최종 검증: `artifacts/m5-validation-20260906/validation.json`.
+12개 명령 exit 0, **225 passed / 0 failed / 0 skipped**.
+연구 원본은 `artifacts/m5-final-20260906/`, 최종 [REPORT](REPORT.md)와
+[감사 기록](M5_AUDIT.md)에 근거를 연결했다. 연구 v0.1은 완료했다.
+다음 실험 제안 하나는 같은 계약의 CPU top10 경로 계산 최적화다. 구현하지 않았으며,
+이번 작업은 M5에서 멈춘다. GPU, 업로드, 원격 push는 진행하지 않았다.

@@ -1,0 +1,202 @@
+[
+  {
+    "max": 6.6203076670644805,
+    "median": 6.554076457978226,
+    "min": 6.50247829197906,
+    "mode": "exhaustive",
+    "query_count": 50,
+    "repetitions": 3,
+    "scope": "own warm search and output",
+    "target_count": 100
+  },
+  {
+    "max": 7.481695333030075,
+    "median": 7.327557250042446,
+    "min": 6.959134958102368,
+    "mode": "exhaustive",
+    "query_count": 50,
+    "repetitions": 3,
+    "scope": "own warm search and output",
+    "target_count": 200
+  },
+  {
+    "max": 8.222611458040774,
+    "median": 8.167228000005707,
+    "min": 7.427189040929079,
+    "mode": "exhaustive",
+    "query_count": 50,
+    "repetitions": 3,
+    "scope": "own warm search and output",
+    "target_count": 350
+  },
+  {
+    "max": 7.95311274996493,
+    "median": 7.871003624866717,
+    "min": 7.857136292033829,
+    "mode": "exhaustive",
+    "query_count": 50,
+    "repetitions": 3,
+    "scope": "own warm search and output",
+    "target_count": 500
+  },
+  {
+    "max": 7.481995125999674,
+    "median": 7.460753374965861,
+    "min": 7.366742000100203,
+    "mode": "single",
+    "query_count": 50,
+    "repetitions": 3,
+    "scope": "own warm search and output",
+    "target_count": 100
+  },
+  {
+    "max": 9.734479207894765,
+    "median": 9.599616666091606,
+    "min": 8.842637959052809,
+    "mode": "single",
+    "query_count": 50,
+    "repetitions": 3,
+    "scope": "own warm search and output",
+    "target_count": 200
+  },
+  {
+    "max": 12.378613832988776,
+    "median": 12.361955208005384,
+    "min": 11.363906792015769,
+    "mode": "single",
+    "query_count": 50,
+    "repetitions": 3,
+    "scope": "own warm search and output",
+    "target_count": 350
+  },
+  {
+    "max": 13.121975457994267,
+    "median": 13.060624917037785,
+    "min": 13.025062501081266,
+    "mode": "single",
+    "query_count": 50,
+    "repetitions": 3,
+    "scope": "own warm search and output",
+    "target_count": 500
+  },
+  {
+    "max": 7.510108417947777,
+    "median": 7.483065499109216,
+    "min": 7.4030851238640025,
+    "mode": "double",
+    "query_count": 50,
+    "repetitions": 3,
+    "scope": "own warm search and output",
+    "target_count": 100
+  },
+  {
+    "max": 9.71747245802544,
+    "median": 9.670243707951158,
+    "min": 8.853216125047766,
+    "mode": "double",
+    "query_count": 50,
+    "repetitions": 3,
+    "scope": "own warm search and output",
+    "target_count": 200
+  },
+  {
+    "max": 12.374903833027929,
+    "median": 12.19136099901516,
+    "min": 11.699854791047983,
+    "mode": "double",
+    "query_count": 50,
+    "repetitions": 3,
+    "scope": "own warm search and output",
+    "target_count": 350
+  },
+  {
+    "max": 12.912773124873638,
+    "median": 12.791081833885983,
+    "min": 12.786447083111852,
+    "mode": "double",
+    "query_count": 50,
+    "repetitions": 3,
+    "scope": "own warm search and output",
+    "target_count": 500
+  },
+  {
+    "max": 9.52099270792678,
+    "median": 9.46954454202205,
+    "min": 9.41193870792631,
+    "mode": "double-ungapped",
+    "query_count": 50,
+    "repetitions": 3,
+    "scope": "own warm search and output",
+    "target_count": 100
+  },
+  {
+    "max": 14.066838540951721,
+    "median": 13.069695373880677,
+    "min": 12.858600458013825,
+    "mode": "double-ungapped",
+    "query_count": 50,
+    "repetitions": 3,
+    "scope": "own warm search and output",
+    "target_count": 200
+  },
+  {
+    "max": 19.890285001019947,
+    "median": 19.870030291029252,
+    "min": 18.019758791895583,
+    "mode": "double-ungapped",
+    "query_count": 50,
+    "repetitions": 3,
+    "scope": "own warm search and output",
+    "target_count": 350
+  },
+  {
+    "max": 22.680277792038396,
+    "median": 22.601736166048795,
+    "min": 22.528579333098605,
+    "mode": "double-ungapped",
+    "query_count": 50,
+    "repetitions": 3,
+    "scope": "own warm search and output",
+    "target_count": 500
+  },
+  {
+    "max": 2.1582531249150634,
+    "median": 2.03988016594667,
+    "min": 2.0041283749742433,
+    "mode": "official",
+    "query_count": 50,
+    "repetitions": 3,
+    "scope": "native preencoded search and export",
+    "target_count": 100
+  },
+  {
+    "max": 2.3097234580200166,
+    "median": 2.1150683340383694,
+    "min": 2.0942650419892743,
+    "mode": "official",
+    "query_count": 50,
+    "repetitions": 3,
+    "scope": "native preencoded search and export",
+    "target_count": 200
+  },
+  {
+    "max": 2.562505584093742,
+    "median": 2.309715958079323,
+    "min": 2.2283042919589207,
+    "mode": "official",
+    "query_count": 50,
+    "repetitions": 3,
+    "scope": "native preencoded search and export",
+    "target_count": 350
+  },
+  {
+    "max": 2.4025381669634953,
+    "median": 2.349681874969974,
+    "min": 2.302448458969593,
+    "mode": "official",
+    "query_count": 50,
+    "repetitions": 3,
+    "scope": "native preencoded search and export",
+    "target_count": 500
+  }
+]

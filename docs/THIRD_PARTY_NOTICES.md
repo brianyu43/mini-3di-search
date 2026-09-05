@@ -44,3 +44,16 @@ BSD 계열 사용 조건과 배포본에 포함된 license/notice를 따른다. 
 recurrence에서 직접 작성했으며 Numba/LLVM 소스 구현을 복사하지 않았다.
 실제 wheel과 hash, 설치 버전 기록은 `artifacts/m4-preflight-20260905T064421Z/` 및
 M4 study의 `installed-versions.json`에 있다. 시스템 LLVM이나 GPU SDK는 설치하지 않았다.
+
+## M5 그림과 깨끗한 환경 재설치
+
+Matplotlib 3.11.1과 그림용 전이 의존성을 별도 `requirements-report.lock.txt`에 고정했다.
+설치 wheel의 PyPI metadata, URL, byte 수, SHA-256 및 배포 license 필드는
+`artifacts/m5-preflight-20260905T155705Z/wheel-plan.json`과 개별 metadata JSON에 보존했다.
+실제 사용 조건은 각 배포본에 포함된 license/notice를 따른다. 외부 패키지의 코드를
+프로젝트 소스에 복사하거나 재라이선스하지 않았다.
+
+검증용 wheelhouse 24개는 총 84,352,803 bytes다. 기존 Numba/llvmlite wheel을 재사용해
+새로 받은 wheel은 41,128,522 bytes이며 구조 데이터는 새로 다운로드하지 않았다.
+이 wheelhouse는 별도 venv에 네트워크 없이 설치하는 최종 재현성 검증에 사용한다.
+최종 그림은 실제 연구 산출물을 자체 plotting script로 시각화한 것이며 upstream 그림을 복사하지 않았다.

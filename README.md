@@ -1,17 +1,18 @@
 # mini-3di-search
 
-Foldseek의 검색 단계에서 영감을 받은 교육용 프로젝트다. **M0–M4, 6단계 중 5단계를 완료**했다.
+Foldseek의 검색 단계에서 영감을 받은 교육용 프로젝트다. **M0–M5, 전체 6단계를 완료**했다.
 직접 작성한 정렬·인덱스·후보 필터를 실제 구조의 3Di에 적용하고, 공식 Foldseek 및
-독립 SCOPe 분류와 비교했다. Numba CPU 점수 커널과 성능 분석을 마쳤으며,
-전체 v0.1은 partial이다. 별도 자료를 사용하는 잠금 평가는 남아 있다.
+독립 SCOPe 분류와 비교했다. Numba CPU 커널, 개발과 분리한 최종 평가,
+보고서와 새 가상환경 검증까지 v0.1 연구 범위를 마쳤다.
 
-실제 pilot은 질의 25개 × 대상 250개다. Numba 점수 6,250개가 기존 Python과 모두 같고
-**214개 검사 통과**. 같은 backend에서 전수검색은 3.777초, double 필터는 4.947초였다
-(warm 3회 중앙값, 상위 10개 상세 정렬 포함). double은 score DP를 18.11% 줄이고
-전수 top10을 평균 90.0% 보존했지만 후보 생성 비용 때문에 느렸다. 현재 D1 권고는 전수검색이다.
-단일 개발 pilot이며 원논문 전체 재현이나 Foldseek보다 우수하다는 주장은 하지 않는다.
-[M4 실측 결과](docs/M4_RESULTS.md), [M4 방법](docs/M4_METHOD.md),
-[공식 Foldseek와의 M3 비교](docs/M3_RESULTS.md)를 참조한다.
+최종 D2는 질의 50개 × 대상 500개다. **25,000쌍의 점수가 독립 Biopython과 일치**했고
+새 환경에서 **225 passed / 0 failed / 0 skipped**였다. 설정을 동결한 87회 실측에서
+전수검색은 7.843초, double 필터는 12.777초였다(warm 3회 중앙값, top10 상세 경로 포함).
+double은 score DP를 14.18% 줄이고 전수 top10을 평균 92.4% 보존했지만 더 느렸다.
+SCOPe Recall@10은 전수 92.27%, double 87.60%, 공식 91.60%였다. 작은 선택 표본이며
+공식 도구는 점수·출력 범위가 달라 일반적인 우위나 같은 작업의 가속 배수를 주장하지 않는다.
+[최종 보고서](docs/REPORT.md), [동결 기록](FREEZE.md), [완료 감사](docs/M5_AUDIT.md)를 참조한다.
+개발 D1의 25×250 실험은 [M4 결과](docs/M4_RESULTS.md)에 별도로 보존했다.
 
 ## 지금 실행하기
 
@@ -121,7 +122,7 @@ m3di-fast --queries artifacts/m3-pilot-data-20260905T063500Z/queries.jsonl --db 
 | 구현 M2 | k-mer 위치 인덱스, single / double / ungapped filter, 검색 손실 측정 |
 | 구현 M3 | bounded prepare, 실제 encoder/ID/label 대응, 25×250 자체·공식 검색과 개발 평가 |
 | 구현 M4 | int64 Numba rolling-row score, 실제 CLI, 18개 설정·90회 반복·병목 분석 |
-| 미착수 M5 | 별도 잠금 평가와 최종 보고서 |
+| 완료 M5 | 50×500 D2·87회 실측·세 그림·최종 보고서·새 venv 225 tests |
 
 Biopython은 테스트 oracle로만 쓴다. 자체 정렬 / 전수검색에서 외부 aligner를
 호출하지 않는다. 자체 raw score는 E-value / bit score / TM-score가 아니다.
@@ -138,4 +139,21 @@ Biopython은 테스트 oracle로만 쓴다. 자체 정렬 / 전수검색에서 �
 - [원본 출처 목록](SOURCES.md), [upstream 조사와 M3 고정 자산](docs/UPSTREAM.md)
 - [기여와 외부 자산 범위](docs/THIRD_PARTY_NOTICES.md)
 
-현재 실행은 **M4에서 종료**했다. 다음 단계는 **M5**의 설정·test 동결과 최종 평가다.
+현재 실행은 **M5에서 종료**했다. 연구 범위 v0.1의 완료이며 패키지 배포 버전은
+기존 `0.1.0.dev1`을 유지한다. GPU/UI/새 seed 알고리즘과 원격 push는 진행하지 않았다.
+
+## M5 최종 평가 검증
+
+실제 D2·M3/M4 산출물과 해시를 확인한 wheelhouse가 있는 이 checkout에서 실행한다.
+`--out`에는 아직 없는 새 경로를 지정한다. 새 별도 가상환경을 만들고 인터넷 없이
+의존성 및 패키지를 설치하여 전체 테스트·합성 데모·실제 CLI·Ruff를 검증한다.
+
+```bash
+.venv/bin/python scripts/verify_m5.py \
+  --study artifacts/m5-final-20260906 \
+  --wheelhouse artifacts/m5-preflight-20260905T155705Z/wheels \
+  --out artifacts/my-m5-validation
+```
+
+실제 완료 로그는 [validation.json](artifacts/m5-validation-20260906/validation.json)이다.
+원자료 준비와 전체 실험 재실행 경계는 [REPORT](docs/REPORT.md)에 설명했다.

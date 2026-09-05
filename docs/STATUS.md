@@ -1,7 +1,7 @@
 # 현재 상태
 
-2026-09-05: **M0 / M1 / M2 / M3 / M4 completed**, 전체 6단계 중 **5단계 완료**다.
-전체 v0.1은 **partial**이다.
+2026-09-06: **M0 / M1 / M2 / M3 / M4 / M5 completed**, 전체 **6단계 완료**다.
+v0.1 연구 범위는 **completed**다. 작은 실제 구조 집합의 평가이며 전체 Foldseek 재현은 아니다.
 
 | 단계 | 상태 | 증거 |
 |---|---|---|
@@ -10,9 +10,24 @@
 | M2 | completed | 인덱스 / single / double / ungapped / 진단 / 보존율; 전체 149 passed, 0 failed, 0 skipped |
 | M3 | completed | 실제 25×250 pilot / ID·label 대응 / 자체·공식 비교 / 전체 181 passed, 0 failed, 0 skipped |
 | M4 | completed | Numba 점수 동등성 6,250쌍 / 18개 개발 조합 / 90회 실측 / 전체 214 passed |
-| M5 | partial | 사용자 목표에 따라 D2 동결·공식 비교·최종 보고서 실행 계획 수립 |
+| M5 | completed | 동결 D2 50×500 / 87회 실측 / 세 그림·REPORT / 새 별도 venv 225 passed |
 
 ## 실행 결과
+
+최신 M5 결과:
+
+- [최종 검증](../artifacts/m5-validation-20260906/validation.json):
+  **225 passed / 0 failed / 0 skipped**, 새 환경의 설치·데모·실제 CLI·Ruff 등 12개 명령 exit 0.
+- [보고서](REPORT.md), [동결](../FREEZE.md), [완료 감사](M5_AUDIT.md),
+  [실측 원본](../artifacts/m5-final-20260906/study.json).
+- D2: 개발에 노출된 259개 fold를 제외한 query 50개 / target 500개.
+  ID·PDB·알려진 개발 AA·구조 hash 중복 0, 모든 질의에 positive 존재.
+- 25,000쌍 점수 전부 독립 Biopython과 일치. 개발 설정 그대로 A0–A3/B0, 네 DB 크기,
+  각 3회 및 fresh/end-to-end 포함 87회 측정. 측정 후 코드·설정 변경 없음.
+- warm 검색 중앙값: 전수 7.843초 / double 12.777초. double exact 보존 92.4%,
+  score DP 14.18% 감소, SCOPe Recall 87.60%(전수 92.27%). 계산 감소가 시간 절약으로 이어지지 않았다.
+- RSS incomplete: B0 warm 12회, 자체 end-to-end 12회, B0 end-to-end 3회 내부 sampler.
+  fresh/전체 실행 27회의 독립 부모 관측은 complete. 순간 peak와 짧은 export 미관측 한계 유지.
 
 최신 M4 결과:
 
@@ -65,10 +80,10 @@
 
 ## 범위와 남은 확인
 
-M4를 막는 blocker는 없다. 실제 자료는 독립 라벨과 연결된 작은 개발 pilot이다.
+M5 완료를 막는 blocker는 없다. D1은 개발 pilot, D2는 설정 선택에 쓰지 않은 작은 최종 표본이다.
 RSS는 process-tree 표본 관측이며 표본 사이의 순간 peak는 놓칠 수 있다.
 M2 당시 일부 RSS 관측 및 합성 자료라는 경계도 유지한다.
-원논문 버전/전체 benchmark 재현, 일반적인 성능 우위, 잠금 test 결과를 주장하지 않는다.
+원논문 버전/전체 benchmark 재현이나 일반적인 성능 우위를 주장하지 않는다.
 
-현재 단계는 **M5 별도 test와 설정 동결 후 최종 평가**다. [M5 계획](M5_PLAN.md)에 기록한다.
+현재 단계는 **M5 종료**다. [M5 계획](M5_PLAN.md)에 완료 증거를 기록한다.
 연구 계약과 후속 프롬프트는 변경하지 않았다. 로컬 저장소만 사용하며 원격 push는 없다.
