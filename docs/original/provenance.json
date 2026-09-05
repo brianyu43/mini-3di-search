@@ -1,0 +1,34 @@
+{
+  "retrieved_at_utc": "2026-09-05T03:36:14.727339+00:00",
+  "conversation_title": "연구 작업물 모방 계획",
+  "conversation_url": "https://chatgpt.com/c/6a9b86b1-b874-83ee-9df2-6b864712af5e",
+  "downloaded_folder": "/Users/xavier/Downloads/steinegger_reproduction_pack",
+  "retrieval": "Original full Markdown package downloaded through the conversation link in Safari; Safari expanded the archive. Only five validated regular Markdown files were copied.",
+  "files": [
+    {
+      "file": "AGENTS.md",
+      "bytes": 4572,
+      "sha256": "ebfbbd9626891177a58b90927093fa1089530e1a16fc451105d56fbb75a7c916"
+    },
+    {
+      "file": "RESEARCH_PLAN.md",
+      "bytes": 35049,
+      "sha256": "14cb5c5dfbf2ceeb52f68cbeffbd9b8014b4c0269e2d0724d175f1bb589a68cf"
+    },
+    {
+      "file": "SOURCES.md",
+      "bytes": 7336,
+      "sha256": "122c36c11ba8c9f10d6f5df361be3c3e4ed91b24fce94422a3598954cb1b4306"
+    },
+    {
+      "file": "CODEX_PROMPTS.md",
+      "bytes": 15666,
+      "sha256": "bde6a16cbec2c42ab74ed2efe9a1c987979a8e6f227e475bc2304e4a8b21dc81"
+    },
+    {
+      "file": "README.md",
+      "bytes": 2220,
+      "sha256": "82904f0c2dbe34c94336a3912f26ef6f4a30013318a17c522ec35381dc480f33"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mini-3di-search"
+version = "0.1.0.dev1"
+description = "Educational 3Di search: M0/M1 Python alignment reference and synthetic demo"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = ["psutil"]
+
+[project.optional-dependencies]
+dev = ["biopython", "numpy", "pytest", "hypothesis", "ruff"]
+
+[project.scripts]
+m3di = "mini3di_search.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--strict-markers"
+markers = ["integration: requires a verified external Foldseek installation and real data"]
+filterwarnings = ["error"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

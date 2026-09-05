@@ -1,0 +1,15 @@
+# M0/M1 verified environment: CPython 3.12.14, macOS arm64
+# Generated from installed distribution metadata; no inferred versions.
+biopython==1.88
+hypothesis==6.167.1
+iniconfig==2.3.0
+numpy==2.5.2
+packaging==26.3
+pip==25.0.1
+pluggy==1.6.0
+psutil==7.2.2
+Pygments==2.21.0
+pytest==9.1.1
+ruff==0.16.6
+setuptools==84.0.0
+sortedcontainers==2.4.0
