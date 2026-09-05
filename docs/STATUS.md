@@ -10,7 +10,7 @@
 | M2 | completed | 인덱스 / single / double / ungapped / 진단 / 보존율; 전체 149 passed, 0 failed, 0 skipped |
 | M3 | completed | 실제 25×250 pilot / ID·label 대응 / 자체·공식 비교 / 전체 181 passed, 0 failed, 0 skipped |
 | M4 | completed | Numba 점수 동등성 6,250쌍 / 18개 개발 조합 / 90회 실측 / 전체 214 passed |
-| M5 | not_started | 별도 잠금 test / 일반화 평가 / 최종 보고서 없음 |
+| M5 | partial | 사용자 목표에 따라 D2 동결·공식 비교·최종 보고서 실행 계획 수립 |
 
 ## 실행 결과
 
@@ -70,5 +70,5 @@ RSS는 process-tree 표본 관측이며 표본 사이의 순간 peak는 놓칠 �
 M2 당시 일부 RSS 관측 및 합성 자료라는 경계도 유지한다.
 원논문 버전/전체 benchmark 재현, 일반적인 성능 우위, 잠금 test 결과를 주장하지 않는다.
 
-다음 단계는 **M5 별도 test와 설정 동결 후 최종 평가**다. 이번에는 시작하지 않았다.
+현재 단계는 **M5 별도 test와 설정 동결 후 최종 평가**다. [M5 계획](M5_PLAN.md)에 기록한다.
 연구 계약과 후속 프롬프트는 변경하지 않았다. 로컬 저장소만 사용하며 원격 push는 없다.

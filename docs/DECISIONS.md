@@ -140,3 +140,21 @@ RSS는 50ms 목표 간격의 process-tree 표본이며 관측 실패 flag를 유
 JIT runtime과 allocator history도 포함된다. fresh/end-to-end는 부모 관측도 함께 기록한다.
 cProfile 결과는 계측 실행으로 분리하고 timing 반복에 섞지 않는다.
 M5 test, GPU, 새 seed 알고리즘, 추가 구조 다운로드, 업로드/원격 push는 수행하지 않는다.
+# D019 — M5의 데이터 분리와 출력 범위
+
+M5는 M4의 preferred exhaustive / best filtered double k3/W64 및 A3 threshold20을
+그대로 평가한다. D1 최종 집합뿐 아니라 사전 후보 pool과 5개 실제 smoke의 fold/PDB까지
+제외한다. 50×500 상한과 사전 DP count ladder, nested DB 네 크기는 M5_PLAN에 기록했다.
+M1–M4의 검색·encoder 코드는 수정하지 않고 동결·평가·보고 모듈을 추가한다.
+
+# D020 — 음수 CA B-factor와 encoder 소문자 출력
+
+첫 D2 prepare에서 1,226개 export 중 `d2cbia1_A` 한 개가 AA `g/i/l`, 3Di `d/l/s`
+소문자를 포함하여 기존 검증기가 중단했다. 원본 CA의 B-factor -0.67/-1.13/-1.38과
+소문자 위치(0-based 62/68/108)가 일치한다. 고정 [upstream source](https://github.com/steineggerlab/foldseek/blob/941cd33ff0771cd2e3f144e3293e22a2b87e9fda/src/strucclustutils/structcreatedb.cpp)는
+CA B-factor가 threshold보다 작으면 AA/3Di를 소문자로 변환한다. threshold=0도 음수를 가린다.
+
+encoder 옵션이나 허용 alphabet을 바꾸지 않고 M5 품질 조건에 음수 CA B-factor 제외를
+추가한다. 구조 하나를 대문자로 강제 변환하거나 조용히 빼지 않는다. 실패 준비 경로는
+`artifacts/m5-d2-20260906/`에 그대로 두고 새 경로에서 같은 seed/분리/개수 계약으로 준비한다.
+아직 test 검색을 실행하지 않았으므로 검색 결과에 의한 설정 변경이 아니다.
