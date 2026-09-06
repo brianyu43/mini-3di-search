@@ -1,0 +1,4 @@
+{
+  "message": "unsupported aa tokens: ['g', 'i', 'l']; no case folding",
+  "type": "ValueError"
+}

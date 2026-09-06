@@ -8,7 +8,7 @@ D2 검색을 시작하기 전에 만든 고정 계약이다. 설정은 M4에서 
 
 - 데이터: `artifacts/m5-d2-20260906-v2`, DB sizes=[100, 200, 350, 500]
 - 설정: `configs/frozen.toml`
-- 계약: [artifacts/m5-final-20260906/freeze-contract.json](artifacts/m5-final-20260906/freeze-contract.json)
+- 계약: [artifacts/m5-final-20260906/freeze-contract.json](results/m5-final-20260906/freeze-contract.json)
 - 계약 SHA-256: `e463e14958c67cb71b28dfb4a3d60132351553798fc2afa19ff09e20039e564a`
 - 고정 upstream: Foldseek 10-941cd33, SCOPe 2.01 benchmark.
 

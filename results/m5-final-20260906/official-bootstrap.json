@@ -1,0 +1,35 @@
+{
+  "fold_count": 50,
+  "metrics": {
+    "candidate_fraction": null,
+    "hit_at_10": {
+      "percentile_95_interval": [
+        0.84,
+        0.98
+      ],
+      "point": 0.92,
+      "valid_replicates": 1000
+    },
+    "official_overlap_at_10": null,
+    "precision_at_10": {
+      "percentile_95_interval": [
+        0.10400000000000001,
+        0.17400000000000002
+      ],
+      "point": 0.138,
+      "valid_replicates": 1000
+    },
+    "recall_at_10": {
+      "percentile_95_interval": [
+        0.836,
+        0.98
+      ],
+      "point": 0.916,
+      "valid_replicates": 1000
+    },
+    "retain_exact_at_10": null
+  },
+  "replicates": 1000,
+  "scope": "selected D2 folds only; not a population-wide confidence guarantee",
+  "seed": 20260906
+}

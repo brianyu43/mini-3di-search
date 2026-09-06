@@ -1,0 +1,28 @@
+{
+  "export_seconds": {
+    "max": 0.07646900007966906,
+    "median": 0.07569087494630367,
+    "min": 0.07567437493707985
+  },
+  "repetitions": 3,
+  "rss_peak_range_bytes": [
+    917504000,
+    917569536
+  ],
+  "sample_paths": [
+    "artifacts/m5-final-20260906/sizes/500/warm/r1-4-A4",
+    "artifacts/m5-final-20260906/sizes/500/warm/r2-5-A4",
+    "artifacts/m5-final-20260906/sizes/500/warm/r3-1-A4"
+  ],
+  "scope": "native preencoded search+export, all upstream reported paths; not matched score/output work",
+  "search_seconds": {
+    "max": 2.299880374921486,
+    "median": 2.2472207499668,
+    "min": 2.201535291969776
+  },
+  "wall_seconds": {
+    "max": 2.4025381669634953,
+    "median": 2.349681874969974,
+    "min": 2.302448458969593
+  }
+}

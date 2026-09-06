@@ -1,0 +1,12 @@
+{
+  "batch_nopython_signatures": [
+    "(Array(int64, 1, 'C', False, aligned=True), Array(int64, 1, 'C', False, aligned=True), Array(int64, 1, 'C', False, aligned=True), Array(int64, 1, 'C', False, aligned=True), Array(int64, 2, 'C', False, aligned=True), int64, int64) -> array(int64, 1d, C)"
+  ],
+  "cache": false,
+  "compiled_in_this_call": true,
+  "first_call_including_compilation_seconds": 0.23515195795334876,
+  "parallel": false,
+  "repeat_call_seconds": 6.833928637206554e-06,
+  "scope": "first batch dispatch includes compiler and tiny execution; not pure compile time",
+  "score_dtype": "int64"
+}

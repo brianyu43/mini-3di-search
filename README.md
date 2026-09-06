@@ -14,12 +14,17 @@ SCOPe Recall@10은 전수 92.27%, double 87.60%, 공식 91.60%였다. 작은 선
 [최종 보고서](docs/REPORT.md), [동결 기록](FREEZE.md), [완료 감사](docs/M5_AUDIT.md)를 참조한다.
 개발 D1의 25×250 실험은 [M4 결과](docs/M4_RESULTS.md)에 별도로 보존했다.
 
+GitHub에서 결과를 검토하려면 [결과 자료 안내](results/README.md)를 먼저 읽는다.
+실측 요약·질의별 지표·검증 로그 50개를 원본과 같은 바이트로 보존하고
+[복사 manifest](results/MANIFEST.json)에 출처 경로와 SHA-256을 기록했다.
+2026-09-06 업로드 준비 과정에서도 새 가상환경의 **225개 테스트와 12개 검증 명령이 통과**했다.
+[이번 검증 로그](results/github-validation-20260906/validation.json)는 기존 성능 측정과 구분한다.
+
 ## 지금 실행하기
 
-이미 구성한 로컬 프로젝트 환경:
+이미 구성한 로컬 프로젝트 폴더에서:
 
 ```bash
-cd /Users/xavier/Documents/dev/mini-3di-search
 source .venv/bin/activate
 m3di doctor --out artifacts/env.json
 m3di demo --out artifacts/smoke
@@ -57,6 +62,13 @@ threshold를 명시해야 한다. 인덱스 k와 검색 k가 다르면 오류다
 [M2_RESULTS](docs/M2_RESULTS.md), 점수 선택의 근거는 [SCORING_RATIONALE](docs/SCORING_RATIONALE.md)에 있다.
 
 ## 새 환경에 설치하기
+
+GitHub 저장소를 처음 받는 경우(비공개 저장소 접근 권한 필요):
+
+```bash
+git clone https://github.com/brianyu43/mini-3di-search.git
+cd mini-3di-search
+```
 
 검증된 환경은 **CPython 3.12.14, macOS arm64**다. 패키지 버전은
 [requirements-dev.lock.txt](requirements-dev.lock.txt)에 고정되어 있다.
@@ -139,8 +151,9 @@ Biopython은 테스트 oracle로만 쓴다. 자체 정렬 / 전수검색에서 �
 - [원본 출처 목록](SOURCES.md), [upstream 조사와 M3 고정 자산](docs/UPSTREAM.md)
 - [기여와 외부 자산 범위](docs/THIRD_PARTY_NOTICES.md)
 
-현재 실행은 **M5에서 종료**했다. 연구 범위 v0.1의 완료이며 패키지 배포 버전은
-기존 `0.1.0.dev1`을 유지한다. GPU/UI/새 seed 알고리즘과 원격 push는 진행하지 않았다.
+연구 실행은 **M5에서 종료**했다. 연구 범위 v0.1의 완료이며 패키지 배포 버전은
+기존 `0.1.0.dev1`을 유지한다. 이후 사용자의 GitHub 업로드 요청에 따라 코드·문서·선별 결과를
+비공개 저장소에 보존하는 범위를 추가했다. [업로드 범위](docs/GITHUB_PUBLICATION.md)를 참조한다.
 
 ## M5 최종 평가 검증
 
@@ -155,5 +168,5 @@ Biopython은 테스트 oracle로만 쓴다. 자체 정렬 / 전수검색에서 �
   --out artifacts/my-m5-validation
 ```
 
-실제 완료 로그는 [validation.json](artifacts/m5-validation-20260906/validation.json)이다.
+실제 완료 로그는 [validation.json](results/m5-validation-20260906/validation.json)이다.
 원자료 준비와 전체 실험 재실행 경계는 [REPORT](docs/REPORT.md)에 설명했다.

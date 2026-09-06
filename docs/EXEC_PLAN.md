@@ -129,3 +129,14 @@ M5 최종 검증: `artifacts/m5-validation-20260906/validation.json`.
 [감사 기록](M5_AUDIT.md)에 근거를 연결했다. 연구 v0.1은 완료했다.
 다음 실험 제안 하나는 같은 계약의 CPU top10 경로 계산 최적화다. 구현하지 않았으며,
 이번 작업은 M5에서 멈춘다. GPU, 업로드, 원격 push는 진행하지 않았다.
+
+## 후속 요청: GitHub 보존 — 2026-09-06
+
+- [x] 로컬 완료 커밋과 원격 미연결 상태 확인.
+- [x] 새 별도 venv에서 M5 전체 검증 재실행: 225 passed, 12개 명령 exit 0.
+- [x] 기존 Git 이력의 자격 증명 패턴·파일 크기 확인.
+- [x] 결과 파일 50개를 byte-exact 복사하고 SHA-256 manifest 및 보고서 링크 정리.
+- [ ] `brianyu43/mini-3di-search` 비공개 저장소 생성·push·원격 commit 대조.
+
+사용자의 이번 업로드 요청은 초기 원격 push 금지 범위를 변경한다. 구현·동결 설정·
+기존 실측값과 원본 계획 파일은 유지한다. [세부 범위](GITHUB_PUBLICATION.md).

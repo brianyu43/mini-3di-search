@@ -1,0 +1,56 @@
+{
+  "fold_count": 50,
+  "metrics": {
+    "candidate_fraction": {
+      "percentile_95_interval": [
+        0.72104,
+        0.82992
+      ],
+      "point": 0.77584,
+      "valid_replicates": 1000
+    },
+    "hit_at_10": {
+      "percentile_95_interval": [
+        0.82,
+        0.98
+      ],
+      "point": 0.9,
+      "valid_replicates": 1000
+    },
+    "official_overlap_at_10": {
+      "percentile_95_interval": [
+        0.4,
+        0.494
+      ],
+      "point": 0.446,
+      "valid_replicates": 1000
+    },
+    "precision_at_10": {
+      "percentile_95_interval": [
+        0.098,
+        0.166
+      ],
+      "point": 0.13,
+      "valid_replicates": 1000
+    },
+    "recall_at_10": {
+      "percentile_95_interval": [
+        0.7786666666666666,
+        0.956
+      ],
+      "point": 0.876,
+      "valid_replicates": 1000
+    },
+    "retain_exact_at_10": {
+      "percentile_95_interval": [
+        0.872,
+        0.964
+      ],
+      "point": 0.924,
+      "valid_replicates": 1000
+    }
+  },
+  "replicates": 1000,
+  "scope": "selected D2 folds only; not a population-wide confidence guarantee",
+  "seed": 20260906
+}

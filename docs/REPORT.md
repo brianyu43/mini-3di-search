@@ -45,7 +45,7 @@ fold 및 원본 PDB를 가로지르는 중복을 차단하고, 이미 인코딩�
 100·200·350·500개를 검색 전에 정했다. 따라서 DB 크기를 늘릴 때 query는 동일하고,
 작은 DB의 target은 큰 DB에 그대로 포함된다. positive를 보장한 표본이므로 실제 임의 DB에서의
 유병률이나 검색 난도 분포를 대표하지 않는다. 분할·exclusion·길이·원본 hash는
-[자료 감사](../artifacts/m5-d2-20260906-v2/split-audit.json)와 manifest에 있다.
+[자료 감사](../results/m5-d2-20260906-v2/split-audit.json)와 manifest에 있다.
 
 DB별 positive 분포는 아래와 같다. 예를 들어 `1:41`은 positive가 하나인 질의가
 41개라는 뜻이다. 모든 크기에서 평가 질의는 50개, label 누락과 positive 없는 질의는 0개다.
@@ -104,8 +104,8 @@ DP는 전수 667,972,214 cells 대비 비율이다. B0 내부 후보·DP는 관�
 | A3 +ungapped | 73.28 | 82.57 | 91.2 | 90.0 | 87.60 | 13.0 | 44.4 |
 | B0 공식 | NA | NA | NA | 92.0 | 91.60 | 13.8 | NA |
 
-원본은 [질의별 지표](../artifacts/m5-final-20260906/sizes/500/quality-rows.json)와
-[집계](../artifacts/m5-final-20260906/sizes/500/quality-summary.json)다. 최종 DB는
+원본은 [질의별 지표](../results/m5-final-20260906/sizes/500/quality-rows.json)와
+[집계](../results/m5-final-20260906/sizes/500/quality-summary.json)다. 최종 DB는
 실패 질의·빈 결과·positive 없는 질의·unknown label 모두 0개다. 전체 질의-대상 관계 중
 ambiguous는 28쌍이며, 각 검색의 반환 목록에서 제외한 수는 A0/A1/A2/A3/B0 순으로
 28/28/23/22/18이다. 이는 질의 수가 아닌 관계 수다. 100-target DB에서는 B0의 빈 결과
@@ -130,8 +130,8 @@ ambiguous는 28쌍이며, 각 검색의 반환 목록에서 제외한 수는 A0/
 B0의 사전 변환 DB 검색 명령은 2.247 [2.202, 2.300]초, export는
 0.076 [0.076, 0.076]초, wrapper 전체는 2.350 [2.302, 2.403]초였다.
 점수·출력 작업량이 다르므로 이 숫자로 같은 작업의 가속 배수를 주장하지 않는다.
-[자체 원본](../artifacts/m5-final-20260906/sizes/500/warm-summary.json)과
-[공식 원본](../artifacts/m5-final-20260906/sizes/500/native-summary.json)에 반올림 전 값이 있다.
+[자체 원본](../results/m5-final-20260906/sizes/500/warm-summary.json)과
+[공식 원본](../results/m5-final-20260906/sizes/500/native-summary.json)에 반올림 전 값이 있다.
 
 ![동일 backend의 단계별 검색 시간](figures/m5/stage-time.png)
 
@@ -140,8 +140,8 @@ B0의 사전 변환 DB 검색 명령은 2.247 [2.202, 2.300]초, export는
 A2는 score 시간을 약 0.26초 줄이는 대신 후보 선택에 약 5.08초를 쓴다.
 A3에는 ungapped 검사 약 9.82초가 더 든다. 후보 감소를 총시간 절약으로 해석할 수 없는 이유다.
 
-별도 [A0 프로파일](../artifacts/m5-final-20260906/profile-exhaustive/profile.txt)에서
-Python `align`은 500회 호출되었고, [A3 프로파일](../artifacts/m5-final-20260906/profile-double-ungapped/profile.txt)에는
+별도 [A0 프로파일](../results/m5-final-20260906/profile-exhaustive/profile.txt)에서
+Python `align`은 500회 호출되었고, [A3 프로파일](../results/m5-final-20260906/profile-double-ungapped/profile.txt)에는
 `ungapped_score` 240,044회와 그 안의 반복 인코딩·범위 검사가 나타났다.
 프로파일에는 RSS 감시·thread 대기와 계측 오버헤드도 섞이므로 누적 시간을 합쳐 비율을
 계산하지 않는다. 병목 판단은 이 호출 구조와 비계측 반복의 단계별 시간을 함께 근거로 삼았다.
@@ -155,9 +155,9 @@ Python `align`은 500회 호출되었고, [A3 프로파일](../artifacts/m5-fina
 ## 실행 범위와 불확실성
 
 실제 변환·새 프로세스 비용까지 포함하면 다음과 같다. 각 셀은 초 단위 중앙값 [최소, 최대]다.
-원본은 [fresh](../artifacts/m5-final-20260906/fresh-process/summary.json),
-[자체 전체 실행](../artifacts/m5-final-20260906/end-to-end/summary.json),
-[공식 전체 실행](../artifacts/m5-final-20260906/native-end-to-end/summary.json)에 있다.
+원본은 [fresh](../results/m5-final-20260906/fresh-process/summary.json),
+[자체 전체 실행](../results/m5-final-20260906/end-to-end/summary.json),
+[공식 전체 실행](../results/m5-final-20260906/native-end-to-end/summary.json)에 있다.
 
 | 방법 | fresh 프로세스 전체 | 구조 변환 포함 프로세스 전체 | 전체 실행 부모 RSS MiB 범위 |
 |---|---:|---:|---:|
@@ -191,7 +191,7 @@ warm은 입력·인덱스·JIT 준비 완료 후의 검색이며, fresh는 Pytho
 같은 query fold를 단위로 1,000회 bootstrap해 작은 선택 표본 내부의 변동을 요약한다.
 A2 exact 보존의 95% percentile 구간은 87.2–96.4%, Recall은 77.87–95.60%였다.
 A0 Recall 구간은 85.2–98.0%, B0는 83.6–98.0%로 넓다. 점추정의 작은 차이를 우월성이나
-모집단 보장으로 해석하지 않는다. [A2 bootstrap 원본](../artifacts/m5-final-20260906/double-bootstrap.json).
+모집단 보장으로 해석하지 않는다. [A2 bootstrap 원본](../results/m5-final-20260906/double-bootstrap.json).
 한 machine·세 반복·최대 500 targets에서 얻은 시간 차이를 모든 DB 규모에 일반화하지 않는다.
 M3는 모든 후보의 상세 경로를 만들고 M4/M5는 top10만 복원하므로 두 단계의 총시간 비율을
 순수 JIT 속도 향상으로 해석하지 않는다. 자체와 공식 도구의 점수·출력 범위 차이도 유지한다.
@@ -223,7 +223,8 @@ Recall이 0이다. 전수검색에서도 생기는 순위·점수 표현의 한�
 사용자는 프로젝트 방향과 실행 범위를 지정하고, 설명을 요청하며 데이터 용량 예외를 승인했다.
 Codex는 AI 보조로 코드·테스트·실험 실행·로그 검토·보고서 작성을 수행했다. 이 대화에서
 사용자가 직접 코드를 검증하거나 별도로 결과를 재현했다는 사실은 확인되지 않았다.
-사용자 본인의 구현·독립 해석으로 포장하지 않는다. 공개 배포와 GitHub push는 수행하지 않는다.
+사용자 본인의 구현·독립 해석으로 포장하지 않는다. M5 실험 완료 당시에는 원격 push를
+수행하지 않았으며, 이후 GitHub 보존 요청의 범위는 [업로드 기록](GITHUB_PUBLICATION.md)에 분리했다.
 
 환경은 CPython 3.12.14, NumPy 2.5.2, Numba 0.67.0, llvmlite 0.49.0, macOS arm64다.
 그림은 Matplotlib 3.11.1의 기본 색상을 사용한다. 기본 lock은 유지하고 그림 의존성은
@@ -233,7 +234,7 @@ test·실제 CLI·Ruff까지 12개 명령 모두 exit 0, **225 passed / 0 failed
 설치했다. 패키지는 non-editable 설치이며 site-packages 경로를 확인했다.
 전체 D2 25,000쌍을 독립 Biopython 점수와 대조하고, 설치된 CLI의 점수도 저장된 전수 기준과
 일치함을 확인했다. 이 테스트는 계산 계약의 검증이지 생물학적 유용성을 증명하는 검사가 아니다.
-[실행 로그](../artifacts/m5-validation-20260906/validation.json),
+[실행 로그](../results/m5-validation-20260906/validation.json),
 [요구사항 감사](M5_AUDIT.md)에 경계와 증거를 연결했다.
 
 프로젝트 루트의 고정 환경에서 실제 수행한 핵심 명령은 다음과 같다. 이미 있는 산출물을

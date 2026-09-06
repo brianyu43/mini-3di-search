@@ -1,0 +1,64 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "/Users/xavier/Documents/dev/mini-3di-search/.venv/bin/python",
+        "/Users/xavier/Documents/dev/mini-3di-search/scripts/m5_study.py",
+        "native-worker",
+        "--data",
+        "artifacts/m5-d2-20260906-v2",
+        "--out",
+        "artifacts/m5-final-20260906/native-end-to-end/r1/work"
+      ],
+      "exit_status": 0,
+      "failure": null,
+      "process_tree_complete": true,
+      "process_wall_seconds": 4.203154040966183,
+      "sample_interval_seconds": 0.05,
+      "sampled_process_tree_peak_rss_bytes": 1003110400,
+      "samples": 53
+    },
+    {
+      "argv": [
+        "/Users/xavier/Documents/dev/mini-3di-search/.venv/bin/python",
+        "/Users/xavier/Documents/dev/mini-3di-search/scripts/m5_study.py",
+        "native-worker",
+        "--data",
+        "artifacts/m5-d2-20260906-v2",
+        "--out",
+        "artifacts/m5-final-20260906/native-end-to-end/r2/work"
+      ],
+      "exit_status": 0,
+      "failure": null,
+      "process_tree_complete": true,
+      "process_wall_seconds": 4.017209792044014,
+      "sample_interval_seconds": 0.05,
+      "sampled_process_tree_peak_rss_bytes": 1002274816,
+      "samples": 49
+    },
+    {
+      "argv": [
+        "/Users/xavier/Documents/dev/mini-3di-search/.venv/bin/python",
+        "/Users/xavier/Documents/dev/mini-3di-search/scripts/m5_study.py",
+        "native-worker",
+        "--data",
+        "artifacts/m5-d2-20260906-v2",
+        "--out",
+        "artifacts/m5-final-20260906/native-end-to-end/r3/work"
+      ],
+      "exit_status": 0,
+      "failure": null,
+      "process_tree_complete": true,
+      "process_wall_seconds": 3.9414271250134334,
+      "sample_interval_seconds": 0.05,
+      "sampled_process_tree_peak_rss_bytes": 1002520576,
+      "samples": 49
+    }
+  ],
+  "repetitions": 3,
+  "wall_seconds": {
+    "max": 4.203154040966183,
+    "median": 4.017209792044014,
+    "min": 3.9414271250134334
+  }
+}

@@ -1,0 +1,48 @@
+         56802432 function calls (56639492 primitive calls) in 12.520 seconds
+
+   Ordered by: cumulative time
+   List reduced from 107 to 40 due to restriction <40>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+  154/153    0.000    0.000   18.464    0.121 threading.py:637(wait)
+      152    0.834    0.005    9.871    0.065 threading.py:323(wait)
+      500    4.317    0.009    6.406    0.013 align_reference.py:25(align)
+      611    1.983    0.003    3.639    0.006 {method 'acquire' of '_thread.lock' objects}
+ 53263345    2.965    0.000    2.965    0.000 {built-in method builtins.max}
+      153    0.009    0.000    2.658    0.017 __init__.py:951(children)
+325278/162639    0.057    0.000    2.630    0.000 _psosx.py:343(wrapper)
+      153    0.030    0.000    2.609    0.017 __init__.py:251(_ppid_map)
+   162027    0.024    0.000    2.550    0.000 _psosx.py:411(ppid)
+162792/162639    0.042    0.000    2.473    0.000 _common.py:367(wrapper)
+   162486    0.518    0.000    2.312    0.000 _psosx.py:370(_get_kinfo_proc)
+   162486    1.534    0.000    1.534    0.000 {built-in method psutil._psutil_osx.proc_kinfo_oneshot}
+    152/5    0.001    0.000    0.096    0.019 demo.py:54(sample)
+      500    0.007    0.000    0.078    0.000 traceback.py:10(rescore_alignment)
+     1000    0.016    0.000    0.054    0.000 scoring.py:83(guard_range)
+   442000    0.024    0.000    0.036    0.000 scoring.py:87(<genexpr>)
+    12037    0.007    0.000    0.036    0.000 {built-in method builtins.sum}
+     2000    0.016    0.000    0.027    0.000 scoring.py:53(encode)
+      153    0.000    0.000    0.027    0.000 __init__.py:1482(pids)
+      153    0.000    0.000    0.024    0.000 _psosx.py:319(pids)
+      153    0.023    0.000    0.023    0.000 {built-in method psutil._psutil_osx.pids}
+        1    0.000    0.000    0.023    0.023 search_numba.py:84(search)
+    60166    0.005    0.000    0.022    0.000 traceback.py:47(<genexpr>)
+     2501    0.002    0.000    0.021    0.000 {method 'join' of 'str' objects}
+    56021    0.007    0.000    0.017    0.000 scoring.py:62(score)
+   409497    0.017    0.000    0.017    0.000 {method 'append' of 'list' objects}
+   162333    0.011    0.000    0.013    0.000 _psosx.py:365(__init__)
+   441000    0.011    0.000    0.011    0.000 {built-in method builtins.abs}
+   357334    0.011    0.000    0.011    0.000 scoring.py:60(<genexpr>)
+      203    0.007    0.000    0.011    0.000 {built-in method builtins.sorted}
+   354528    0.010    0.000    0.010    0.000 {built-in method builtins.len}
+      459    0.000    0.000    0.010    0.000 _psosx.py:474(create_time)
+   112042    0.010    0.000    0.010    0.000 {method 'index' of 'tuple' objects}
+      306    0.000    0.000    0.009    0.000 __init__.py:313(__init__)
+      306    0.000    0.000    0.009    0.000 __init__.py:316(_init)
+     8292    0.002    0.000    0.008    0.000 align_reference.py:108(<genexpr>)
+      306    0.000    0.000    0.008    0.000 __init__.py:363(_get_ident)
+      153    0.000    0.000    0.007    0.000 __init__.py:459(_raise_if_pid_reused)
+      153    0.000    0.000    0.007    0.000 __init__.py:625(is_running)
+    25050    0.003    0.000    0.004    0.000 search_numba.py:153(<genexpr>)
+
+

@@ -16,10 +16,10 @@ v0.1 연구 범위는 **completed**다. 작은 실제 구조 집합의 평가이
 
 최신 M5 결과:
 
-- [최종 검증](../artifacts/m5-validation-20260906/validation.json):
+- [최종 검증](../results/m5-validation-20260906/validation.json):
   **225 passed / 0 failed / 0 skipped**, 새 환경의 설치·데모·실제 CLI·Ruff 등 12개 명령 exit 0.
 - [보고서](REPORT.md), [동결](../FREEZE.md), [완료 감사](M5_AUDIT.md),
-  [실측 원본](../artifacts/m5-final-20260906/study.json).
+  [실측 원본](../results/m5-final-20260906/study.json).
 - D2: 개발에 노출된 259개 fold를 제외한 query 50개 / target 500개.
   ID·PDB·알려진 개발 AA·구조 hash 중복 0, 모든 질의에 positive 존재.
 - 25,000쌍 점수 전부 독립 Biopython과 일치. 개발 설정 그대로 A0–A3/B0, 네 DB 크기,
@@ -86,4 +86,12 @@ M2 당시 일부 RSS 관측 및 합성 자료라는 경계도 유지한다.
 원논문 버전/전체 benchmark 재현이나 일반적인 성능 우위를 주장하지 않는다.
 
 현재 단계는 **M5 종료**다. [M5 계획](M5_PLAN.md)에 완료 증거를 기록한다.
-연구 계약과 후속 프롬프트는 변경하지 않았다. 로컬 저장소만 사용하며 원격 push는 없다.
+연구 계약과 후속 프롬프트는 변경하지 않았다. M5 완료 당시에는 로컬 저장소만 사용했다.
+이후 사용자의 GitHub 업로드 요청에 따른 범위는 [업로드 기록](GITHUB_PUBLICATION.md)에 있다.
+
+## GitHub 보존 준비 — 2026-09-06
+
+새 가상환경에서 전체 검증을 다시 수행하여 **225 passed / 0 failed / 0 skipped**와
+12개 명령 exit 0을 확인했다. [이번 검증](../results/github-validation-20260906/validation.json).
+[선별 결과 자료](../results/README.md)는 GitHub에서 열 수 있다. 이 문서의 M1–M4 역사 기록 중
+`artifacts/`로 연결되는 원문은 로컬에만 보존하며 저장소에 전체 데이터를 포함하지 않는다.
