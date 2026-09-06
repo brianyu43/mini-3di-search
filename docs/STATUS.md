@@ -89,7 +89,10 @@ M2 당시 일부 RSS 관측 및 합성 자료라는 경계도 유지한다.
 연구 계약과 후속 프롬프트는 변경하지 않았다. M5 완료 당시에는 로컬 저장소만 사용했다.
 이후 사용자의 GitHub 업로드 요청에 따른 범위는 [업로드 기록](GITHUB_PUBLICATION.md)에 있다.
 
-## GitHub 보존 준비 — 2026-09-06
+## GitHub 보존 완료 — 2026-09-06
+
+[brianyu43/mini-3di-search](https://github.com/brianyu43/mini-3di-search) 비공개 저장소의
+`main`에 업로드했다. 최초 업로드 `a2f92c3`과 원격 164개 파일의 Git blob hash가 일치했다.
 
 새 가상환경에서 전체 검증을 다시 수행하여 **225 passed / 0 failed / 0 skipped**와
 12개 명령 exit 0을 확인했다. [이번 검증](../results/github-validation-20260906/validation.json).

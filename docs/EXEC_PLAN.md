@@ -136,7 +136,8 @@ M5 최종 검증: `artifacts/m5-validation-20260906/validation.json`.
 - [x] 새 별도 venv에서 M5 전체 검증 재실행: 225 passed, 12개 명령 exit 0.
 - [x] 기존 Git 이력의 자격 증명 패턴·파일 크기 확인.
 - [x] 결과 파일 50개를 byte-exact 복사하고 SHA-256 manifest 및 보고서 링크 정리.
-- [ ] `brianyu43/mini-3di-search` 비공개 저장소 생성·push·원격 commit 대조.
+- [x] `brianyu43/mini-3di-search` 비공개 저장소 생성·push·원격 commit 대조.
+  최초 업로드 `a2f92c3`과 164개 파일의 Git blob hash가 원격과 모두 일치했다.
 
 사용자의 이번 업로드 요청은 초기 원격 push 금지 범위를 변경한다. 구현·동결 설정·
 기존 실측값과 원본 계획 파일은 유지한다. [세부 범위](GITHUB_PUBLICATION.md).
