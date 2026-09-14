@@ -9,7 +9,7 @@ class Alphabet(StrEnum):
     THREE_DI = "3di"
 
 
-# M1's explicit uppercase input policy, not a verified real-export policy.
+# Uppercase input policy; unknown tokens are explicit and never case-folded.
 CANONICAL_TOKENS = "ACDEFGHIKLMNPQRSTVWY"
 ALLOWED_TOKENS = frozenset(CANONICAL_TOKENS + "X")
 

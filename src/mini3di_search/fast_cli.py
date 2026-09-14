@@ -1,28 +1,15 @@
-"""M4 command line for Numba search on checked synthetic or explicitly real records."""
+"""Numba search command shared by m3di search and m3di-fast."""
 
 import argparse
+import json
 import os
 from pathlib import Path
 from time import perf_counter
 
 
-def main():
-    for key in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS", "NUMBA_NUM_THREADS"):
-        os.environ[key] = "1"
-    from .align_numba import warmup
-    from .benchmark import bounded, memory_report
-    from .doctor import file_sha256
-    from .experiments import write_json
-    from .index import IndexConfig, load_index
-    from .io import read_records
-    from .pipeline import MODES, SearchConfig
-    from .records import Alphabet
-    from .scoring import Scoring, load_matrix
-    from .search_numba import metadata, prepare_search, search, write_outputs
+def add_search_arguments(parser):
+    from .pipeline import MODES
 
-    parser = argparse.ArgumentParser(
-        description="Numba 3Di search with full Python top-K traceback"
-    )
     parser.add_argument("--queries", type=Path, required=True)
     parser.add_argument("--db", type=Path, required=True)
     parser.add_argument("--matrix", type=Path, required=True)
@@ -37,9 +24,24 @@ def main():
     parser.add_argument("--gap-extend", type=int, default=1)
     parser.add_argument("--max-dp-cells", type=int, default=10**9)
     parser.add_argument("--out", type=Path, required=True)
-    args = parser.parse_args()
+
+
+def run_search(args):
+    for key in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS", "NUMBA_NUM_THREADS"):
+        os.environ[key] = "1"
+    from .align_numba import warmup
+    from .doctor import file_sha256
+    from .index import IndexConfig, load_index
+    from .io import read_records, write_json
+    from .pipeline import SearchConfig
+    from .records import Alphabet
+    from .runtime import bounded, memory_report
+    from .scoring import Scoring, load_matrix
+    from .search_numba import metadata, prepare_search, search, write_outputs
+
     if args.out.exists():
         raise FileExistsError(args.out)
+    config = SearchConfig(args.mode, args.k, args.window, args.ungapped_threshold)
     began = perf_counter()
     with bounded() as memory:
         start = perf_counter()
@@ -69,7 +71,7 @@ def main():
         result = search(
             prepared,
             index,
-            SearchConfig(args.mode, args.k, args.window, args.ungapped_threshold),
+            config,
             top_k=args.top_k,
         )
         start = perf_counter()
@@ -87,8 +89,27 @@ def main():
         "scope": "fresh invocation; existing index; encode excluded; disk cache not flushed",
     }
     write_json(args.out / "run.json", report)
-    print(f"{len(result.hits)} hits written to {args.out}; backend numba-int64-rolling")
+    return {
+        "run_dir": str(args.out),
+        "hit_count": len(result.hits),
+        "aligned_pairs": report["aligned_pairs"],
+        "backend": report["backend"],
+        "synthetic": report["synthetic"],
+    }
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(
+        description="Numba 3Di search with full Python top-K traceback"
+    )
+    add_search_arguments(parser)
+    args = parser.parse_args(argv)
+    try:
+        print(json.dumps(run_search(args), indent=2, sort_keys=True))
+        return 0
+    except (ValueError, OSError, OverflowError, RuntimeError) as exc:
+        parser.exit(2, f"m3di-fast: error: {exc}\n")
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

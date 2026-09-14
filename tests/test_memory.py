@@ -1,6 +1,6 @@
 from types import SimpleNamespace
 
-from mini3di_search.demo import RssSampler
+from mini3di_search.runtime import RssSampler
 
 
 def test_denied_process_tree_is_reported_as_incomplete():

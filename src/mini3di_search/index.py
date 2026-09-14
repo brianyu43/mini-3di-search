@@ -89,7 +89,7 @@ def build_index(
     if type(allow_real) is not bool:
         raise ValueError("allow_real must be bool")
     if not allow_real and any(not r.synthetic for r in records):
-        raise ValueError("M2 index requires synthetic=true records")
+        raise ValueError("index requires synthetic=true records unless allow_real is enabled")
     if len({r.synthetic for r in records}) > 1:
         raise ValueError("cannot mix synthetic and real index records")
     targets = tuple(sorted(records, key=lambda r: r.record_id))
@@ -119,7 +119,7 @@ def load_index(
 ) -> KmerIndex:
     """Rebuild and compare every posting, including missing postings.
 
-    This integrity check costs a full index build at load time in M2; it is
+    This integrity check costs a full index build at load time; it is
     reported separately from search timing. JSON carries no executable objects.
     """
     raw = json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=_unique_keys)

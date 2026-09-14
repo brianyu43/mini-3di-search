@@ -3,85 +3,18 @@
 import csv
 import json
 import random
-import threading
 import time
 import uuid
 from dataclasses import asdict
 from datetime import UTC, datetime
 from pathlib import Path
 
-import psutil
-
 from .doctor import environment_report, file_sha256
-from .io import read_records, write_records
+from .io import HIT_FIELDS, read_records, write_records
 from .records import CANONICAL_TOKENS, ProteinRecord
+from .runtime import RssSampler
 from .scoring import Scoring, synthetic_matrix
 from .search import exhaustive_search
-
-HIT_FIELDS = [
-    "query_id",
-    "target_id",
-    "raw_score",
-    "rank",
-    "q_start",
-    "q_end",
-    "t_start",
-    "t_end",
-    "cigar",
-    "mode",
-    "backend",
-    "scoring_id",
-    "index_id",
-    "run_id",
-    "synthetic",
-]
-
-
-class RssSampler:
-    """Sample current process + descendants; this is not Python-heap-only memory."""
-
-    def __init__(self, interval: float = 0.01) -> None:
-        self.interval = interval
-        self.peak = 0
-        self.samples = 0
-        self.incomplete_samples = 0
-        self.tree_complete = True
-        self.rss_reads = 0
-        self.stop = threading.Event()
-        self.process = psutil.Process()
-        self.worker = threading.Thread(target=self._run, daemon=True)
-
-    def sample(self) -> None:
-        try:
-            processes = [self.process, *self.process.children(recursive=True)]
-        except (psutil.Error, OSError):
-            processes = [self.process]
-            self.incomplete_samples += 1
-            self.tree_complete = False
-        rss = 0
-        for process in processes:
-            try:
-                rss += process.memory_info().rss
-                self.rss_reads += 1
-            except (psutil.Error, OSError):
-                self.incomplete_samples += 1
-                self.tree_complete = False
-        self.peak = max(self.peak, rss)
-        self.samples += 1
-
-    def _run(self) -> None:
-        while not self.stop.wait(self.interval):
-            self.sample()
-
-    def __enter__(self):
-        self.sample()
-        self.worker.start()
-        return self
-
-    def __exit__(self, *_):
-        self.stop.set()
-        self.worker.join()
-        self.sample()
 
 
 def synthetic_records(seed: int) -> tuple[list[ProteinRecord], list[ProteinRecord]]:

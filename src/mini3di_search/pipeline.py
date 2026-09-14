@@ -1,4 +1,4 @@
-"""M2 candidate pipeline. Every mode calls the unchanged M1 alignment backend."""
+"""Candidate pipeline with the same reference alignment backend for every mode."""
 
 from dataclasses import asdict, dataclass
 from time import perf_counter
@@ -67,7 +67,7 @@ def search_index(
     if type(top_k) is not int or top_k < 1:
         raise ValueError("top_k must be a positive integer")
     if scoring.matrix.kind is not Alphabet.THREE_DI:
-        raise ValueError("M2 search requires a 3Di matrix")
+        raise ValueError("search requires a 3Di matrix")
     records = [*queries, *index.targets]
     validate_origin(records, scoring, allow_real)
     validate_budget(max_total_cells)

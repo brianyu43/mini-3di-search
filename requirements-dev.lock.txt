@@ -1,5 +1,5 @@
-# M4 verified environment: CPython 3.12.14, macOS arm64
-# Exact installed versions; wheel URLs and SHA-256 are recorded in M4 preflight.
+# Verified environment: CPython 3.12.14, macOS arm64.
+# Historical wheel provenance is preserved on research/m0-m5-complete.
 biopython==1.88
 hypothesis==6.167.1
 iniconfig==2.3.0

@@ -1,5 +1,0 @@
-# Preserve byte-exact Matplotlib exports, whose SVG path data has trailing spaces.
-docs/figures/m5/*.svg whitespace=-blank-at-eol
-# Preserve exported evidence hashes across checkouts, including raw cProfile EOFs.
-results/** -text
-results/m5-final-20260906/profile-*/profile.txt whitespace=-blank-at-eof

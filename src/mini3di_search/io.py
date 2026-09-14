@@ -44,3 +44,26 @@ def write_records(path: Path, records: list[ProteinRecord]) -> None:
         raise ValueError("cannot write an empty record collection")
     text = "".join(json.dumps(asdict(r), sort_keys=True) + "\n" for r in records)
     path.write_text(text, encoding="utf-8")
+
+
+HIT_FIELDS = [
+    "query_id",
+    "target_id",
+    "raw_score",
+    "rank",
+    "q_start",
+    "q_end",
+    "t_start",
+    "t_end",
+    "cigar",
+    "mode",
+    "backend",
+    "scoring_id",
+    "index_id",
+    "run_id",
+    "synthetic",
+]
+
+
+def write_json(path: Path, data: object) -> None:
+    path.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n", encoding="utf-8")

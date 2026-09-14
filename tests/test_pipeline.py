@@ -1,10 +1,10 @@
 from dataclasses import replace
 
 import pytest
+from helpers import stress_records
 from test_index import record
 
 from mini3di_search import search
-from mini3di_search.experiments import stress_records
 from mini3di_search.index import IndexConfig, build_index, load_index, save_index
 from mini3di_search.pipeline import MODES, SearchConfig, retention, search_index
 from mini3di_search.records import Alphabet

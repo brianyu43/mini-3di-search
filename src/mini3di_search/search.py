@@ -1,4 +1,4 @@
-"""M1 synthetic exhaustive baseline. Candidate filters belong to M2."""
+"""Exhaustive search with deterministic reference alignment and rescoring."""
 
 from dataclasses import dataclass
 
@@ -46,7 +46,7 @@ def exhaustive_search(
     """Rank positive scores by descending score then ascending target ID.
 
     top_k is an output limit, never a candidate cap. All pairs are aligned.
-    The default remains synthetic-only. M3 explicitly enables provenance-checked real inputs.
+    Real encoded inputs require explicit allow_real enablement.
     """
     validate_records(queries)
     validate_records(targets)

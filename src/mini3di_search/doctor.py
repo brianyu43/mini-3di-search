@@ -64,7 +64,7 @@ def environment_report() -> dict:
             "installed_on_path": foldseek_path is not None,
             "path": foldseek_path,
             "version": None,
-            "version_status": "not_executed_in_M1" if foldseek_path else "not_installed",
+            "version_status": "not_executed" if foldseek_path else "not_installed",
         },
         "real_integration_passed": False,
     }

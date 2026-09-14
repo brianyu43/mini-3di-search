@@ -1,4 +1,4 @@
-"""Direct, readable Smith-Waterman recurrence from RESEARCH_PLAN section 7.2."""
+"""Direct, readable affine-gap Smith-Waterman reference and traceback."""
 
 from dataclasses import dataclass
 from itertools import groupby
@@ -33,7 +33,7 @@ def align(
 
     Positive global maxima use the first row-major endpoint. At H ties prefer
     diagonal, E, F; in gap states prefer opening over extending. Stop at H=0.
-    The full-matrix reference is deliberately bounded and is not the M4 backend.
+    The full-matrix reference is bounded separately from the rolling-row Numba scorer.
     """
     q, t = scoring.matrix.encode(query), scoring.matrix.encode(target)
     n, m = len(q), len(t)

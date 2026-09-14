@@ -63,7 +63,7 @@ def ungapped_score(query: Sequence, target: Sequence, diagonal: int, scoring: Sc
     if type(diagonal) is not int:
         raise ValueError("diagonal must be an integer")
     if scoring.matrix.kind is not Alphabet.THREE_DI:
-        raise ValueError("M2 ungapped filtering requires a 3Di matrix")
+        raise ValueError("ungapped filtering requires a 3Di matrix")
     q, t = scoring.matrix.encode(query), scoring.matrix.encode(target)
     scoring.guard_range(len(q), len(t))
     current = best = 0

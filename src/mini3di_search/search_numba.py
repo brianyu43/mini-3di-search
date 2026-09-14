@@ -9,8 +9,8 @@ import numpy as np
 
 from .align_numba import _score_batch, encoded
 from .align_reference import DEFAULT_MAX_CELLS, align
-from .demo import HIT_FIELDS
 from .index import IndexConfig, KmerIndex, digest
+from .io import HIT_FIELDS
 from .pipeline import SearchConfig
 from .prefilter import collect_hits, filter_ungapped, supported_diagonals
 from .records import Alphabet, ProteinRecord, validate_records
